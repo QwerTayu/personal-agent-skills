@@ -22,7 +22,7 @@ herdr tab get <tab_id>            # "label" がタブの名前
 
 - `HERDR_ENV` が `1` でない（herdr の外で動いている）
 - 今いるタブの名前が `Review` である
-- ListAgents の先頭に出る自分の名前（「This session is …」）が `review-<workspace_id>` とちょうど同じ（タブ名が変えられていても、自分がレビュー役だとわかる。`review-in-tab-e1` のように、フォルダ名が `review-` で始まるだけの名前は当たらない）
+- ListAgents の先頭に出る自分の名前（「This session is …」のあとの、`[…]` の前まで）が `review-<workspace_id>` とちょうど同じ（タブ名が変えられていても、自分がレビュー役だとわかる。`review-in-tab-e1` のように、フォルダ名が `review-` で始まるだけの名前は当たらない）
 - code-review に `--fix` か `--comment` が付いている（ファイルを書き換える、または PR に投稿するので、レビュー役には回さない）
 
 2 つ目と 3 つ目は、レビュー役がさらにレビュー役に頼んで終わらなくなるのを防ぐためのものである。
