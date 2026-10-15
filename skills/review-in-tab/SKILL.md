@@ -25,7 +25,7 @@ herdr tab get <tab_id>            # "label" がタブの名前
 - 今いるタブの名前が `Review` である
 - ListAgents の先頭に出る自分の名前（「This session is …」のあとの、`[…]` の前まで）が `review-<workspace_id>` とちょうど同じ（タブ名が変えられていても、自分がレビュー役だとわかる。`review-in-tab-e1` のように、フォルダ名が `review-` で始まるだけの名前は当たらない）
 - 今のブランチ（`git branch --show-current`）が `review-pr-` で始まる（PR 用の worktree のレビュー役である）
-- code-review に `--fix` か `--comment` が付いている（ファイルを書き換える、または PR に投稿するので、レビュー役には回さない）
+- code-review に `--fix` か `--comment` が付いている（ファイルを書き換える、またはユーザーに確かめずに PR に投稿するので、レビュー役には回さない）
 
 2 つ目から 4 つ目は、レビュー役がさらにレビュー役に頼んで終わらなくなるのを防ぐためのものである。
 
