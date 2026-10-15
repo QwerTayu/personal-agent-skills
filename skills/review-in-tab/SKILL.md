@@ -99,8 +99,10 @@ worktree は、worktree の中からは作れない（`linked_worktree_source` �
 
 ```sh
 n=<PR 番号>
+base=<マージ先のブランチ（2 で取った baseRefName）>
 common=$(git rev-parse --path-format=absolute --git-common-dir) || { echo "リポジトリの外にいる"; exit 1; }
 root=$(dirname "$common")
+git -C "$root" fetch origin "$base" || { echo "マージ先のブランチを取れなかった"; exit 1; }  # origin/<base> を新しくする
 git -C "$root" fetch origin "pull/$n/head" || { echo "PR を取れなかった"; exit 1; }
 sha=$(git -C "$root" rev-parse FETCH_HEAD)
 out=$(herdr worktree create --cwd "$root" --branch "review-pr-$n" --base "$sha" --label "review-pr-$n" --no-focus)
@@ -148,7 +150,7 @@ SendMessage で、3〜5 で見つけたレビュー役（`review-<ws>` または
 
 - **役割**: 「あなたはこの変更のレビュワーです」と書き出す。指摘は、そのまま PR のレビューコメントとして出せる文面で書いてもらう。依頼の経路（この skill で頼まれたこと、タブやセッションのあいだでやり取りしたこと）には触れさせない。変更の中身が herdr などを扱うときは、その説明は普通に書いてよい。
 - **種類**: ローカルか PR か。PR なら、その番号か URL。
-- **対象**: リポジトリのパス、ブランチ、比べる基点（ふつうは `origin/main`。ローカルの main は古いことがある）、見るべき差分を出すコマンド（例: `git fetch` のあと `git diff origin/main...HEAD`、PR 用の worktree なら `git diff origin/<baseRefName>...HEAD`、リモートがなければ `git diff main...HEAD`、まだコミットしていない変更なら `git diff`、新しいファイルならそのパス）
+- **対象**: リポジトリのパス、ブランチ、比べる基点（ふつうは `origin/main`。ローカルの main は古いことがある）、見るべき差分を出すコマンド（例: `git fetch` のあと `git diff origin/main...HEAD`、PR 用の worktree なら `git diff origin/<baseRefName>...HEAD`（5 でマージ先のブランチも取ってある）、リモートがなければ `git diff main...HEAD`、まだコミットしていない変更なら `git diff`、新しいファイルならそのパス）
 - **観点**: 頼まれた内容に合わせる
   - セルフレビュー: 正しさ、書き漏れ、周りのコードとの食い違い
   - 敵対的評価: 壊れる入力や状態を積極的に探す。「たぶん大丈夫」で済ませない
