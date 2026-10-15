@@ -93,7 +93,7 @@ printf '%s\n' "$r"
 
 PR の HEAD から、ブランチ `review-pr-<PR 番号>` の worktree を `herdr worktree create` で作る。新しいワークスペースができ、dev-layout が左のペインで claude を起動する。
 
-先に、前のレビューの worktree が残っていないかを見る。`git branch --list 'review-pr-<PR 番号>'` で何か出たら、作らずにユーザーに伝えて、消して作り直すか、そのまま使うかを聞く。
+先に、前のレビューの worktree が残っていないかを見る。`git branch --list 'review-pr-<PR 番号>'` で何か出たら、作らずにユーザーに伝えて、消して作り直すか、そのまま使うかを聞く。そのまま使うときは、その worktree の `git rev-parse HEAD` と `headRefOid` を比べる。違えば前のレビューのときの HEAD のままなので、作り直しを勧める。
 
 worktree は、worktree の中からは作れない（`linked_worktree_source` になる）。元のリポジトリから作る。ここでも、次のブロックは 1 回の呼び出しでまとめて実行する。
 
