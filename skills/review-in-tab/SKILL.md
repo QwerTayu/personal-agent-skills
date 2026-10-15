@@ -43,21 +43,19 @@ ListAgents で `review-<workspace_id>` を探す。
 
 タブを作り、dev-layout の `tab` モードで並べて、左のペインで claude を起動する。cwd は今のリポジトリ（worktree ならその worktree）にする。
 
+起動した直後の claude は、まだメッセージを受け取れない。herdr が claude を見つけるまでは `agent_not_found` が返るので、返らなくなるまで試し直す（ふつうは数秒）。
+
+シェル変数は Bash の呼び出しをまたいで残らないので、次のブロックは 1 回の呼び出しでまとめて実行する。
+
 ```sh
 ws=<workspace_id>
 dir=$(git rev-parse --show-toplevel) || { echo "リポジトリの外にいる"; exit 1; }
 pane=$(herdr tab create --workspace "$ws" --cwd "$dir" --label Review --no-focus \
   | grep -o '"pane_id": *"[^"]*"' | head -1 | sed 's/.*"\([^"]*\)"$/\1/')
 [ -n "$pane" ] || { echo "タブを作れなかった"; exit 1; }
+echo "pane=$pane"
 ~/dotfiles/herdr/plugins/dev-layout/apply-layout.sh tab "$pane" Review "claude --name review-$ws" \
   || { echo "並べられなかった"; exit 1; }
-```
-
-どれかで止まったら、作りかけのタブ（あれば）をユーザーに伝える。勝手に閉じない。
-
-起動した直後の claude は、まだメッセージを受け取れない。herdr が claude を見つけるまでは `agent_not_found` が返るので、返らなくなるまで試し直す（ふつうは数秒）。
-
-```sh
 for i in $(seq 1 30); do
   r=$(herdr agent wait "$pane" --until idle --timeout 30000 2>&1)
   printf '%s' "$r" | grep -q agent_not_found || break
@@ -66,9 +64,11 @@ done
 printf '%s\n' "$r"
 ```
 
+どれかで止まったら、作りかけのタブ（あれば）をユーザーに伝える。勝手に閉じない。
+
 そのあと、ListAgents に `review-<ws>` が出るまで、数回試し直す。
 
-- 時間切れになったとき、または ListAgents に出ないとき: claude が確認の画面（フォルダを信頼するかなど）で止まっていることが多い。`herdr agent read "$pane"` で画面を見る。確認の画面なら、ユーザーに「Review タブで答えてほしい」と伝えて待つ。
+- 時間切れになったとき、または ListAgents に出ないとき: claude が確認の画面（フォルダを信頼するかなど）で止まっていることが多い。`herdr agent read <ペイン ID>`（上のブロックで出した `pane=`）で画面を見る。確認の画面なら、ユーザーに「Review タブで答えてほしい」と伝えて待つ。
 
 ## 4. レビューを頼む
 
