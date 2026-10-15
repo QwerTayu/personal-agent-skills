@@ -112,8 +112,9 @@ echo "ws=$ws pane=$pane"
 parent=$(herdr worktree list --cwd "$root" | grep -o '"source_workspace_id": *"[^"]*"' | sed 's/.*"\([^"]*\)"$/\1/')
 idx=$(herdr workspace list | grep -o '"workspace_id": *"[^"]*"' | sed 's/.*"\([^"]*\)"$/\1/' | grep -nx "$parent" | cut -d: -f1)
 if [ -n "$idx" ]; then  # grep -n は 1 から数えるので、そのまま「すぐ下」の insert_index になる
-  printf '{"id":"1","method":"workspace.move","params":{"workspace_id":"%s","insert_index":%s}}\n' "$ws" "$idx" \
-    | nc -U -w 2 ~/.config/herdr/herdr.sock >/dev/null
+  res=$(printf '{"id":"1","method":"workspace.move","params":{"workspace_id":"%s","insert_index":%s}}\n' "$ws" "$idx" \
+    | nc -U -w 2 "${HERDR_SOCKET_PATH:-$HOME/.config/herdr/herdr.sock}")
+  case "$res" in *'"error"'*|'') echo "並べ替えられなかった: $res" ;; esac
 else
   echo "元のワークスペースが見つからないので、並べ替えなかった"
 fi
