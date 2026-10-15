@@ -35,7 +35,7 @@ herdr tab list --workspace <workspace_id>   # "label":"Review" のタブを探�
 
 ListAgents で `review-<workspace_id>` を探す。
 
-- **Review タブが 1 つあり、ListAgents にその名前が 1 つある**: レビュー役がそのタブにいるかを確かめてから、4 へ進む。`herdr pane list --workspace <workspace_id>` で、Review タブの `tab_id` を持つペインのどれかの `terminal_title` に `review-<workspace_id>` が入っていればよい（`--name` で起動した claude は、`✳ review-wV` のように名前をタイトルに出す）。入っていなければ、レビュー役は別のタブにいるので、ユーザーに伝えて、どうするか聞く。
+- **Review タブが 1 つあり、ListAgents にその名前が 1 つある**: レビュー役がそのタブにいるかを確かめてから、4 へ進む。`herdr pane list --workspace <workspace_id>` で、Review タブの `tab_id` を持つペインのどれかの `terminal_title_stripped` が `review-<workspace_id>` とちょうど同じならよい（`--name` で起動した claude は、`✳ review-wV` のように名前をタイトルに出す。`_stripped` は先頭の記号を外したもの）。入っていなければ、レビュー役は別のタブにいるので、ユーザーに伝えて、どうするか聞く。
 - **Review タブがない、かつ ListAgents にその名前もない**: 3 へ進む。
 - **それ以外**（Review タブが 2 つ以上ある、名前が 2 つ以上ある、タブはあるが名前がない、名前はあるがタブがない）: 作らずに、見つかったものをユーザーに伝えて、どうするか聞く。
 
