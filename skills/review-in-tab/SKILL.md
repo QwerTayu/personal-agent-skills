@@ -99,7 +99,8 @@ worktree は、worktree の中からは作れない（`linked_worktree_source` �
 
 ```sh
 n=<PR 番号>
-root=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)") || { echo "リポジトリの外にいる"; exit 1; }
+common=$(git rev-parse --path-format=absolute --git-common-dir) || { echo "リポジトリの外にいる"; exit 1; }
+root=$(dirname "$common")
 git -C "$root" fetch origin "pull/$n/head" || { echo "PR を取れなかった"; exit 1; }
 sha=$(git -C "$root" rev-parse FETCH_HEAD)
 out=$(herdr worktree create --cwd "$root" --branch "review-pr-$n" --base "$sha" --label "review-pr-$n" --no-focus)
