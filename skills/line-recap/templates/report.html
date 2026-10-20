@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=IBM+Plex+Mono:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --accent: #2a78d6; --accent-ink: #1c5cab; --accent-wash: rgba(42,120,214,0.10);
+  --h0: #f0efec; --h1: #cde2fb; --h2: #9ec5f4; --h3: #6da7ec; --h4: #3987e5; --h5: #256abf; --h6: #104281;
+  /* 人ごとの色。p0（本人）はアクセントの青 */
+  --c0: #2a78d6; --c1: #e07b39; --c2: #2f9e6e; --c3: #8a5cd0; --c4: #d04f6a; --c5: #8f8b80;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57,135,229,0.14);
+    --h0: #262624; --h1: #173253; --h2: #184f95; --h3: #256abf; --h4: #3987e5; --h5: #6da7ec; --h6: #b7d3f6;
+    --c0: #3987e5; --c1: #f0975a; --c2: #4cc08d; --c3: #a985e6; --c4: #ec7189; --c5: #a6a296;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+  --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57,135,229,0.14);
+  --h0: #262624; --h1: #173253; --h2: #184f95; --h3: #256abf; --h4: #3987e5; --h5: #6da7ec; --h6: #b7d3f6;
+  --c0: #3987e5; --c1: #f0975a; --c2: #4cc08d; --c3: #a985e6; --c4: #ec7189; --c5: #a6a296;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--page); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", system-ui, sans-serif; font-size: 16px; line-height: 1.85;
+}
+main { max-width: 760px; margin: 0 auto; padding: 56px 16px 96px; }
+h1, h2 { font-family: "Dela Gothic One", "Zen Kaku Gothic New", sans-serif; font-weight: 400; line-height: 1.35; letter-spacing: 0.01em; }
+h1 { font-size: clamp(28px, 6vw, 44px); margin: 8px 0 16px; }
+h2 { font-size: clamp(21px, 4.2vw, 28px); margin: 0 0 12px; }
+h3 { font-size: 17px; margin: 28px 0 8px; font-weight: 700; }
+p { margin: 0 0 14px; color: var(--ink-2); }
+.num, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.kicker { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.04em; }
+section { margin-top: 72px; }
+.chapter { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent-ink); margin-bottom: 4px; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 20px; margin: 16px 0; }
+.note { font-size: 13px; color: var(--muted); }
+.theme-toggle { position: fixed; top: 12px; right: 12px; border: 1px solid var(--ring); background: var(--surface); color: var(--ink-2); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+
+/* facts */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 10px; margin: 20px 0 12px; }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 14px 14px 12px; }
+.tile .label { font-size: 13px; color: var(--ink-2); }
+.tile .value { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 30px; line-height: 1.2; margin-top: 4px; }
+.tile .sub { font-size: 12px; color: var(--muted); }
+
+/* people */
+.who { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+.who i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.legend-people { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; margin: 8px 0; }
+.split { display: flex; height: 34px; border-radius: 8px; overflow: hidden; font-size: 13px; font-weight: 700; color: #fff; margin: 8px 0; }
+.split div { display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; min-width: 0; }
+.ptable { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ptable th, .ptable td { padding: 6px 6px; text-align: right; border-top: 1px solid var(--grid); white-space: nowrap; }
+.ptable th:first-child, .ptable td:first-child { text-align: left; }
+.ptable thead th { border-top: 0; font-weight: 400; font-size: 12px; color: var(--muted); }
+.ptable td { font-family: "IBM Plex Mono", monospace; }
+.ptable td:first-child { font-family: inherit; }
+.scroll { overflow-x: auto; }
+
+/* charts */
+.chart { width: 100%; display: block; overflow: visible; }
+.chart text { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--muted); }
+.chart .val { fill: var(--ink-2); font-weight: 600; }
+.chart .seg:hover, .chart .seg:focus { opacity: .8; outline: none; }
+.heat { display: grid; grid-template-columns: 22px repeat(24, 1fr); gap: 2px; font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--muted); }
+.heat .cell { aspect-ratio: 1; border-radius: 3px; background: var(--h0); }
+.heat .cell:hover, .heat .cell:focus { outline: 2px solid var(--ink); outline-offset: -1px; }
+.heat .rl { display: flex; align-items: center; }
+.heat .cl { text-align: center; }
+.legend { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); margin-top: 10px; }
+.legend i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+
+/* periods */
+.periods { display: grid; gap: 12px; }
+.period { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 18px 20px; }
+.period .when { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); }
+.period h3 { margin: 2px 0 6px; font-family: "Dela Gothic One", sans-serif; font-weight: 400; font-size: 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { border-radius: 999px; padding: 2px 10px; background: var(--accent-wash); color: var(--ink); font-size: 14px; }
+.chip.strong { background: var(--accent); color: #fff; }
+
+/* topics */
+.topic { display: grid; grid-template-columns: 1fr 120px; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--grid); }
+.topic:first-child { border-top: 0; }
+.topic .name { font-weight: 700; }
+.topic .name .tmp { font-weight: 400; font-size: 12px; color: var(--muted); margin-left: 6px; }
+.topic .words { grid-column: 1; font-size: 13px; color: var(--ink-2); }
+.topic svg { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+.mini text { font-family: "IBM Plex Mono", monospace; font-size: 9px; fill: var(--muted); }
+
+/* word cloud */
+.cloud { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; line-height: 1.3; padding: 16px 20px; }
+.cloud span { color: var(--ink-2); cursor: default; }
+.cloud span.top { color: var(--accent-ink); font-family: "Dela Gothic One", sans-serif; }
+
+/* rows (horizontal bars) */
+.rows { display: grid; gap: 6px; }
+.row { display: grid; grid-template-columns: 9em 1fr 3.5em; gap: 10px; align-items: center; font-size: 14px; }
+.row .track { height: 12px; }
+.row .fill { height: 12px; background: var(--accent); border-radius: 0 4px 4px 0; }
+.row .n { font-family: "IBM Plex Mono", monospace; text-align: right; color: var(--ink-2); }
+.row .k { overflow-wrap: anywhere; }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.two > .card { margin: 0; }
+@media (max-width: 560px) { .two { grid-template-columns: 1fr; } .row { grid-template-columns: 7em 1fr 3em; } }
+
+blockquote { margin: 12px 0; padding: 14px 18px; background: var(--surface); border: 1px solid var(--ring); border-left: 4px solid var(--accent); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); }
+blockquote .meta { display: block; margin-top: 8px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); white-space: normal; }
+.talk { display: grid; gap: 6px; margin: 12px 0; }
+.talk .msg { max-width: 82%; padding: 8px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--ring); white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; line-height: 1.6; }
+.talk .msg.me { justify-self: end; background: var(--accent-wash); }
+.talk .msg .meta { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+.talk .msg.media { color: var(--muted); }
+ol.next { padding-left: 1.4em; color: var(--ink-2); }
+footer { margin-top: 80px; font-size: 12px; color: var(--muted); }
+
+#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--surface); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px; padding: 6px 10px; font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); opacity: 0; transition: opacity .1s; }
+#tip strong { font-family: "IBM Plex Mono", monospace; font-size: 15px; display: block; }
+#tip span { color: var(--ink-2); }
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="theme" type="button" aria-label="ライトとダークを切り替える">◐</button>
+<main id="app"></main>
+<div id="tip" role="tooltip"></div>
+<script>
+const D = /*__DATA__*/null;
+const S = /*__STORY__*/null;
+
+const $ = (tag, attrs = {}, ...kids) => {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") el.className = v;
+    else if (k === "text") el.textContent = v ?? "";
+    else if (k === "style") el.style.cssText = v;
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid != null) el.append(kid);
+  return el;
+};
+const SVG = (tag, attrs = {}) => {
+  const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+};
+const fmt = n => n.toLocaleString("ja-JP");
+const md = iso => { const d = new Date(iso); return `${d.getMonth() + 1}月${d.getDate()}日`; };
+const pct = x => `${Math.round(x * 100)}%`;
+const dur = m => m == null ? "—" : m >= 90 ? `${(m / 60).toFixed(1)}時間` : `${m}分`;
+
+// 人。p0 が本人。色は 6 色まで、7 人目からは灰色
+const PP = D.people, PAIR = D.talk.mode === "pair";
+const NM = k => (PP.find(p => p.key === k) || {}).name || "だれか";
+const CI = k => `var(--c${Math.min(5, +String(k).slice(1))})`;
+const ME = PP[0], YOU = PP[1];
+const who = k => $("span", { class: "who" }, $("i", { style: `background:${CI(k)}` }), NM(k));
+// 割合が大きい順に並べた人（values は key → 数）
+const ranked = values => PP.map(p => ({ key: p.key, n: values[p.key] || 0 })).sort((a, b) => b.n - a.n);
+const sum = o => Object.values(o || {}).reduce((a, b) => a + b, 0);
+
+// tooltip: 値が主、ラベルが従
+const tip = document.getElementById("tip");
+function hover(el, value, label) {
+  el.setAttribute("tabindex", "0");
+  el.setAttribute("aria-label", `${label} ${value}`);
+  const show = e => {
+    tip.replaceChildren($("strong", { text: value }), $("span", { text: label }));
+    const r = el.getBoundingClientRect();
+    const x = e && e.clientX ? e.clientX : r.left + r.width / 2;
+    const y = e && e.clientY ? e.clientY : r.top;
+    tip.style.left = Math.min(x + 12, innerWidth - tip.offsetWidth - 8) + "px";
+    tip.style.top = Math.max(8, y - tip.offsetHeight - 12) + "px";
+    tip.style.opacity = 1;
+  };
+  el.addEventListener("pointermove", show);
+  el.addEventListener("focus", () => show());
+  el.addEventListener("pointerleave", () => tip.style.opacity = 0);
+  el.addEventListener("blur", () => tip.style.opacity = 0);
+}
+const tile = (label, value, sub) => $("div", { class: "tile" },
+  $("div", { class: "label", text: label }), $("div", { class: "value", text: value }), sub ? $("div", { class: "sub", text: sub }) : null);
+// 横棒。items は {label, n, key?}。key があればその人の色にする
+const barRows = (items, unit = "件", fmtV = fmt, max) => {
+  const box = $("div", { class: "rows" });
+  const mx = max || Math.max(...items.map(x => x.n), 1e-9);
+  items.forEach(x => {
+    const row = $("div", { class: "row" }, $("div", { class: "k" }, x.key && !x.label ? who(x.key) : x.label),
+      $("div", { class: "track" }, $("div", { class: "fill", style: `width:${(100 * x.n / mx).toFixed(1)}%${x.key ? `;background:${CI(x.key)}` : ""}` })),
+      $("div", { class: "n", text: fmtV(x.n) }));
+    hover(row, `${fmtV(x.n)}${unit}`, x.label || NM(x.key));
+    box.append(row);
+  });
+  return box;
+};
+// 人ごとの割合の帯
+const split = values => {
+  const total = sum(values) || 1;
+  return $("div", { class: "split", role: "img", "aria-label": "人ごとの割合" }, ranked(values).filter(x => x.n).map(x => {
+    const seg = $("div", { style: `flex:${x.n};background:${CI(x.key)}`, text: x.n / total >= 0.12 ? `${NM(x.key)} ${pct(x.n / total)}` : "" });
+    hover(seg, pct(x.n / total), NM(x.key));
+    return seg;
+  }));
+};
+const legend = () => $("div", { class: "legend-people" }, PP.map(p => who(p.key)));
+const sec = (no, title, heading, ...kids) => {
+  const s = $("section", {}, $("div", { class: "chapter", text: `${String(no).padStart(2, "0")} ${title}` }), $("h2", { text: heading }), ...kids);
+  app.append(s);
+  return s;
+};
+// 会話の吹き出し。本人は右、ほかの人は左
+const talk = msgs => $("div", { class: "talk" }, msgs.map(m => $("div", { class: `msg${m.who === ME.key ? " me" : ""}${m.media ? " media" : ""}` },
+  $("span", { class: "meta" }, PAIR ? "" : `${NM(m.who)} · `, m.date.slice(5).replace("-", "/")), m.text)));
+
+const app = document.getElementById("app");
+const F = D.facts;
+let no = 0;
+
+// 0. header
+app.append(
+  $("div", { class: "kicker", text: `${F.first} → ${F.last} · ${F.span_days}日` }),
+  $("h1", { text: S.title }),
+  $("p", { text: S.lede }),
+  legend(),
+);
+
+// 1. facts
+{
+  const per = F.per_person;
+  const msgs = Object.fromEntries(PP.map(p => [p.key, per[p.key].messages]));
+  const top = ranked(msgs)[0];
+  const s = sec(++no, "ざっくり数字", S.facts_heading || (PAIR ? `${NM(top.key)}が${pct(top.n / F.messages)}を書いた` : `いちばん書いたのは${NM(top.key)}`));
+  s.append($("div", { class: "tiles" },
+    tile("メッセージ", fmt(F.messages), `うちスタンプ ${fmt(F.media.sticker || 0)}`),
+    tile("話した日", fmt(F.days), `${F.span_days}日中`),
+    tile("1通の長さ", `${F.median_len}字`, "中央値"),
+    tile("会話", `${fmt(D.talks.n)}回`, `${D.talks.gap_hours}時間あいたら別の会話`),
+    D.calls && D.calls.n ? tile("通話", `${fmt(D.calls.n)}回`, `合計 ${dur(D.calls.total_min)}`) : null,
+  ));
+  s.append(split(msgs));
+  const cols = [["メッセージ", p => fmt(per[p].messages)], ["文字", p => fmt(per[p].chars)], ["1通", p => `${per[p].median_len}字`],
+    ["スタンプ", p => fmt(per[p].media.sticker || 0)], ["写真", p => fmt(per[p].media.photo || 0)], ["リンク", p => fmt(per[p].links)]];
+  s.append($("div", { class: "card scroll" }, $("table", { class: "ptable" },
+    $("thead", {}, $("tr", {}, $("th", { text: "" }), cols.map(([h]) => $("th", { text: h })))),
+    $("tbody", {}, PP.map(p => $("tr", {}, $("td", {}, who(p.key)), cols.map(([, f]) => $("td", { text: f(p.key) }))))))));
+  const bd = F.best_day;
+  s.append($("p", { text: `いちばん話した日は${md(bd.date)}（${bd.weekday}）の${bd.n}件。${S.facts_note || ""}` }));
+}
+
+// 2. when
+{
+  const W = D.when;
+  const peaks = PP.filter(p => W.peak_hour_people[p.key] != null).slice(0, 4).map(p => `${NM(p.key)}は${W.peak_hour_people[p.key]}時台`).join("、");
+  const s = sec(++no, "いつ話しているか", S.when_heading || `いちばん話すのは${W.peak_weekday}曜の${W.peak_hour}時台`, $("p", { text: S.when_body || `ピークは${peaks}。` }));
+  // 月別の積み上げ棒
+  const card = $("div", { class: "card" }, $("div", { class: "note", text: `月別のメッセージ数（${+F.last.slice(5, 7)}月は${+F.last.slice(8, 10)}日まで）` }));
+  const w = 640, h = 220, pad = { l: 8, r: 8, t: 28, b: 26 };
+  const svg = SVG("svg", { class: "chart", viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "月別のメッセージ数" });
+  const max = Math.max(...W.monthly.map(m => m.n));
+  const bw = (w - pad.l - pad.r) / W.monthly.length;
+  const barW = Math.min(48, bw * 0.55);
+  const sc = v => (h - pad.t - pad.b) * v / max;
+  svg.append(SVG("line", { x1: pad.l, x2: w - pad.r, y1: h - pad.b, y2: h - pad.b, stroke: "var(--axis)" }));
+  const peakMonths = [...W.monthly].sort((a, b) => b.n - a.n).slice(0, 2).map(m => m.month);
+  W.monthly.forEach((m, i) => {
+    const cx = pad.l + bw * i + bw / 2;
+    let y0 = h - pad.b;
+    PP.forEach(p => {
+      const v = m.people[p.key] || 0;
+      if (!v) return;
+      const r = SVG("rect", { class: "seg", x: cx - barW / 2, y: y0 - sc(v), width: barW, height: sc(v), fill: CI(p.key) });
+      hover(r, `${v}件`, `${+m.month.slice(5)}月 · ${NM(p.key)}`);
+      svg.append(r);
+      y0 -= sc(v);
+    });
+    const lab = SVG("text", { x: cx, y: h - 8, "text-anchor": "middle" }); lab.textContent = `${+m.month.slice(5)}月`; svg.append(lab);
+    if (peakMonths.includes(m.month) || i === W.monthly.length - 1) {
+      const v = SVG("text", { x: cx, y: y0 - 8, "text-anchor": "middle", class: "val" }); v.textContent = m.n; svg.append(v);
+    }
+  });
+  card.append(svg, legend());
+  s.append(card);
+
+  // heatmap
+  const hc = $("div", { class: "card" }, $("div", { class: "note", text: `曜日 × 時間帯（ピークは${W.peak_weekday}曜と${W.peak_hour}時台。全員分）` }));
+  const grid = $("div", { class: "heat", role: "img", "aria-label": "曜日と時間帯ごとのメッセージ数" });
+  grid.append($("div"));
+  for (let hr = 0; hr < 24; hr++) grid.append($("div", { class: "cl", text: hr % 3 === 0 ? String(hr) : "" }));
+  const hmax = Math.max(...W.heat.flat());
+  const level = v => v === 0 ? 0 : Math.min(6, 1 + Math.floor((v / hmax) ** 0.6 * 6));
+  "月火水木金土日".split("").forEach((wd, d) => {
+    grid.append($("div", { class: "rl", text: wd }));
+    W.heat[d].forEach((v, hr) => {
+      const c = $("div", { class: "cell", style: `background: var(--h${level(v)})` });
+      hover(c, `${v}件`, `${wd}曜 ${hr}時台`);
+      grid.append(c);
+    });
+  });
+  hc.append(grid);
+  const lg = $("div", { class: "legend" }, $("span", { text: "少" }));
+  for (let i = 0; i <= 6; i++) lg.append($("i", { style: `background: var(--h${i})` }));
+  lg.append($("span", { text: "多" }));
+  hc.append(lg);
+  s.append(hc);
+}
+
+// 3. what
+{
+  const Wt = D.what;
+  const s = sec(++no, "何を話しているか", S.what_heading);
+  s.append($("p", { text: "時期どうしを比べて、その時期に特に多い言葉（Fightin' Words）を並べた。濃い色ほどその時期らしい。全員の言葉をまとめて数えた。" }));
+  const ps = $("div", { class: "periods" });
+  for (const p of Wt.periods) {
+    const st = S.periods[p.key] || { title: p.label, body: "" };
+    const chips = $("div", { class: "chips" });
+    p.words.slice(0, 10).forEach((w, i) => {
+      const c = $("span", { class: "chip" + (i < 3 ? " strong" : ""), text: w.word });
+      hover(c, `${w.n}回`, `z = ${w.z}`);
+      chips.append(c);
+    });
+    ps.append($("div", { class: "period" },
+      $("div", { class: "when", text: `${p.label} · ${fmt(p.n)}件` }), $("h3", { text: st.title }), $("p", { text: st.body, style: "margin:0" }), chips));
+  }
+  s.append(ps);
+
+  // topics（件数が少ないトークは config.json の show_topics: false で出さない）
+  if (Wt.topics) {
+    s.append($("h3", { text: `話題${Wt.topics.length}分類（名前は仮）` }), $("p", { class: "note", text: S.topics_note || "1日分のメッセージを1つにまとめて分けた。名前は自動でつけた仮のもの。" }));
+    const tc = $("div", { class: "card" });
+    const labels = Wt.periods.map(p => p.label);
+    // story.json の topics は「上位語に入っている代表語 → 仮の名前」
+    const topicName = t => Object.entries(S.topics || {}).find(([k]) => t.words.slice(0, 5).includes(k))?.[1] || t.words.slice(0, 3).join("・");
+    [...Wt.topics].sort((a, b) => b.weight - a.weight).forEach(t => {
+      const mini = SVG("svg", { class: "mini", viewBox: "0 0 120 44", width: 120, height: 44, role: "img", "aria-label": "時期ごとの割合" });
+      const keys = Wt.periods.map(p => p.key);
+      const mx = Math.max(...keys.map(k => t.share[k]), 0.01);
+      keys.forEach((k, i) => {
+        const v = t.share[k], bh = Math.max(1, 30 * v / Math.max(mx, 0.5));
+        const r = SVG("rect", { x: 6 + i * 28, y: 32 - bh, width: 18, height: bh, rx: 2, fill: "var(--accent)" });
+        hover(r, `${Math.round(v * 100)}%`, `${labels[i]}の日に占める割合`);
+        mini.append(r);
+        const tx = SVG("text", { x: 15 + i * 28, y: 43, "text-anchor": "middle" }); tx.textContent = labels[i].replace("月", "").replace("〜", "-"); mini.append(tx);
+      });
+      tc.append($("div", { class: "topic" },
+        $("div", { class: "name" }, topicName(t), $("span", { class: "tmp", text: `仮 · ${Math.round(t.weight * 100)}%` })),
+        $("div", { class: "words", text: t.words.slice(0, 8).join("、") }), mini));
+    });
+    s.append(tc);
+  }
+
+  // word cloud
+  if (Wt.words.length) {
+    s.append($("h3", { text: S.words_heading || `いちばん使った言葉は「${Wt.words[0].word}」` }), $("p", { text: S.words_body || "名詞・形容詞などを、全員分まとめて数えた。" }));
+    const cloud = $("div", { class: "card cloud" });
+    const wmax = Wt.words[0].n;
+    [...Wt.words].sort((a, b) => a.word.localeCompare(b.word, "ja")).forEach(w => {
+      const size = 13 + 30 * Math.sqrt(w.n / wmax);
+      const sp = $("span", { class: w.n === wmax ? "top" : "", style: `font-size:${size.toFixed(1)}px`, text: w.word });
+      hover(sp, `${w.n}回`, w.word);
+      cloud.append(sp);
+    });
+    s.append(cloud);
+  }
+
+  // 人ごとの言葉
+  s.append($("h3", { text: S.people_words_heading || "その人らしい言葉" }),
+    $("p", { class: "note", text: "その人とほかの全員を比べて、その人に特に多い言葉。" }));
+  const box = $("div", { class: "two" });
+  PP.slice(0, 6).forEach(p => {
+    const ws = Wt.people[p.key].distinct;
+    if (!ws.length) return;
+    box.append($("div", { class: "card" }, who(p.key), $("div", { class: "chips" },
+      ws.slice(0, 8).map((w, i) => { const c = $("span", { class: "chip" + (i < 3 ? " strong" : ""), text: w.word, style: i < 3 ? `background:${CI(p.key)}` : "" }); hover(c, `${w.n}回`, w.word); return c; }))));
+  });
+  s.append(box);
+}
+
+// 4. habits
+{
+  const H = D.habits;
+  // field は expressions（言い回し）か symbols（記号）。全員分で 2 回以上あるものを、多い順に
+  const table = (field, top) => {
+    const all = {};
+    PP.forEach(p => H[p.key][field].forEach(([k, n]) => { all[k] = (all[k] || 0) + n; }));
+    const keys = Object.entries(all).filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).slice(0, top).map(([k]) => k);
+    const get = (p, k) => H[p][field].find(e => e[0] === k) || [k, 0, 0];
+    return keys.length ? $("div", { class: "card scroll" }, $("table", { class: "ptable" },
+      $("thead", {}, $("tr", {}, $("th", { text: "" }), PP.slice(0, 6).map(p => $("th", {}, who(p.key))))),
+      $("tbody", {}, keys.map(k => $("tr", {}, $("td", { text: k }), PP.slice(0, 6).map(p => { const e = get(p.key, k); return $("td", { text: `${fmt(e[1])} (${pct(e[2])})` }); })))))) : $("p", { text: "なし" });
+  };
+  const s = sec(++no, "くせ", S.habits_heading || "言い回しと記号");
+  s.append($("p", { text: "言い回しや記号を含むメッセージの数。かっこの中は、その人のメッセージに占める割合。" }));
+  s.append($("h3", { text: "言い回し" }), table("expressions", 10));
+  s.append($("h3", { text: "記号" }), $("p", { class: "note", text: "！や？はたいていの人で言い回しより多いので、分けて数えた。" }), table("symbols", 6));
+  const emo = PP.filter(p => H[p.key].emoji.length || H[p.key].line_emoji);
+  if (emo.length) {
+    s.append($("h3", { text: "絵文字" }), $("p", { class: "note", text: "本文に書いた絵文字。LINE の絵文字は種類が分からないので、数だけ。" }));
+    s.append($("div", { class: "two" }, emo.slice(0, 6).map(p => $("div", { class: "card" }, who(p.key),
+      $("div", { class: "chips" }, H[p.key].emoji.map(e => { const c = $("span", { class: "chip", text: `${e.char} ${e.n}` }); return c; }),
+        H[p.key].line_emoji ? $("span", { class: "chip", text: `LINE の絵文字 ${H[p.key].line_emoji}` }) : null)))));
+  }
+}
+
+// 5. talks
+{
+  const T = D.talks;
+  const st = ranked(T.starters)[0], en = ranked(T.enders)[0];
+  const s = sec(++no, "会話のまとまり", S.talks_heading || (PAIR ? `話しかけるのは${NM(st.key)}が${pct(st.n / T.n)}` : `会話を始めるのは${NM(st.key)}がいちばん多い`));
+  s.append($("p", { text: `前のメッセージから${T.gap_hours}時間あいたら、新しい会話として数えた。${fmt(T.n)}回の会話は、1回あたり${T.median_msgs}件・${dur(T.median_minutes)}（中央値）。${S.talks_body || ""}` }));
+  s.append($("div", { class: "two" },
+    $("div", { class: "card" }, $("div", { class: "note", text: "会話を始めた回数" }), barRows(ranked(T.starters).filter(x => x.n).slice(0, 6), "回")),
+    $("div", { class: "card" }, $("div", { class: "note", text: "会話の最後に書いた回数" }), barRows(ranked(T.enders).filter(x => x.n).slice(0, 6), "回"))));
+  s.append($("h3", { text: `いちばん長く続いた会話: ${md(T.longest.start)}、${fmt(T.longest.n)}件・${dur(T.longest.minutes)}` }));
+  if (S.longest_talk_body) s.append($("p", { text: S.longest_talk_body }));
+  s.append(talk(D.highlights.longest_talk));
+}
+
+// 6. speed
+{
+  const Sp = D.speed;
+  const ks = PP.filter(p => Sp[p.key]).map(p => p.key);
+  if (ks.length) {
+    // 回数が少ない人は割合がぶれるので、見出しには 30 回以上ある人から選ぶ
+    const pool = ks.filter(k => Sp[k].n >= 30).length ? ks.filter(k => Sp[k].n >= 30) : ks;
+    const fast = [...pool].sort((a, b) => Sp[b].same_minute - Sp[a].same_minute)[0];
+    const s = sec(++no, "反応の速さ", S.speed_heading || `1分以内に返すのは、${NM(fast)}が${pct(Sp[fast].same_minute)}`);
+    s.append($("p", { text: `ほかの人のメッセージのあとに、自分が書くまでの時間。時刻が分までしかないので、1分以内が最も短い区切り。会話の切れ目（${D.talks.gap_hours}時間）をまたぐものは数えない。${S.speed_body || ""}` }));
+    s.append($("div", { class: "card scroll" }, $("table", { class: "ptable" },
+      $("thead", {}, $("tr", {}, ["", "1分以内", "5分以内", "30分以内", "1時間以内", "回数"].map(h => $("th", { text: h })))),
+      $("tbody", {}, ks.slice(0, 8).map(k => $("tr", {}, $("td", {}, who(k)),
+        [pct(Sp[k].same_minute), pct(Sp[k].within_5), pct(Sp[k].within_30), pct(Sp[k].within_60), fmt(Sp[k].n)].map(v => $("td", { text: v }))))))));
+    const fh = ks.filter(k => Sp[k].fastest_hour != null).slice(0, 4).map(k => `${NM(k)}は${Sp[k].fastest_hour}時台`);
+    if (fh.length) s.append($("p", { class: "note", text: `いちばん速く返す時間帯は、${fh.join("、")}（10回以上ある時間帯から選んだ）。` }));
+  }
+}
+
+// 7. calls
+if (D.calls && D.calls.n) {
+  const C = D.calls;
+  const s = sec(++no, "通話", S.calls_heading || (C.kind === "pair" ? `${C.n}回、合計${dur(C.total_min)}話した` : `グループ通話は${C.n}回`));
+  if (C.kind === "pair") {
+    s.append($("div", { class: "tiles" },
+      tile("つながった通話", `${C.n}回`, `中央値 ${dur(C.median_min)}`),
+      C.longest ? tile("いちばん長い通話", dur(C.longest.min), `${md(C.longest.date)} · ${NM(C.longest.who)}から`) : null,
+      tile(`${NM(ME.key)}が出られなかった`, `${C.missed}回`, `${NM(YOU.key)}からの着信`),
+      tile(`${NM(YOU.key)}が出なかった`, `${C.no_answer}回`, `取り消し ${C.canceled}回`)));
+    s.append($("h3", { text: "かけた回数" }), $("p", { class: "note", text: "つながらなかったものも含む。" }),
+      $("div", { class: "card" }, barRows(ranked(C.tried), "回")));
+  } else {
+    s.append($("p", { text: `始めた人ごとの回数。${C.total_min ? `合計${dur(C.total_min)}（開始と終了の時刻の差。分まで）。` : ""}` }),
+      $("div", { class: "card" }, barRows(ranked(C.callers).filter(x => x.n), "回")));
+  }
+  if (S.calls_body) s.append($("p", { text: S.calls_body }));
+}
+
+// 8. rhythm
+{
+  const R = D.rhythm;
+  const s = sec(++no, "沈黙と連続", S.rhythm_heading || `${R.streak.days}日つづけて話した`);
+  s.append($("div", { class: "tiles" },
+    tile("毎日話した最長", `${R.streak.days}日`, `${md(R.streak.start)}〜${md(R.streak.end)}`),
+    tile("いちばん長い沈黙", `${R.silence.days}日`, `${md(R.silence.after)}のあと`),
+    tile("話した日", `${R.active_days}日`, `${R.span_days}日中`)));
+  if (S.rhythm_body) s.append($("p", { text: S.rhythm_body }));
+  const th = D.thanks, un = D.unsent;
+  s.append($("div", { class: "two" },
+    $("div", { class: "card" }, $("div", { class: "note", text: "「ありがとう」を言った回数" }), sum(th) ? barRows(ranked(th).filter(x => x.n).slice(0, 6), "回") : $("p", { text: "なし" })),
+    $("div", { class: "card" }, $("div", { class: "note", text: "送信を取り消した回数" }), sum(un) ? barRows(ranked(un).filter(x => x.n).slice(0, 6), "回") : $("p", { text: "なし" }))));
+}
+
+// 9. greetings
+if (D.greetings.length) {
+  const G = D.greetings;
+  const g0 = G[0], f0 = ranked(g0.first)[0];
+  const s = sec(++no, "あいさつ", S.greetings_heading || `「${g0.label}」を先に言うのは${NM(f0.key)}`);
+  s.append($("p", { text: "あいさつを言った回数と、その日に先に言った回数。" }));
+  s.append($("div", { class: "two" }, G.map(g => $("div", { class: "card" }, $("div", { class: "note", text: `「${g.label}」を言った回数（${g.days}日）` }),
+    barRows(ranked(g.n).filter(x => x.n).slice(0, 6), "回"),
+    $("p", { class: "note", style: "margin:10px 0 0", text: ranked(g.first).filter(x => x.n).slice(0, 3).map(x => `${NM(x.key)}が先 ${x.n}日`).join("、") })))));
+}
+
+// 10. polite
+{
+  const Po = D.polite.filter(r => Object.keys(r.people).length);
+  if (Po.length) {
+    const s = sec(++no, "です・ます調の移り変わり", S.polite_heading || "です・ます調の割合");
+    s.append($("p", { text: `です・ます調（です・ます・ました など）を含むメッセージの割合を、時期ごとに。20件以上ある時期だけ。${S.polite_body || ""}` }));
+    s.append($("div", { class: "card scroll" }, $("table", { class: "ptable" },
+      $("thead", {}, $("tr", {}, $("th", { text: "" }), Po.map(r => $("th", { text: r.label })))),
+      $("tbody", {}, PP.slice(0, 6).map(p => $("tr", {}, $("td", {}, who(p.key)), Po.map(r => $("td", { text: r.people[p.key] ? pct(r.people[p.key].polite) : "—" }))))))));
+  }
+}
+
+// 11. group follows
+if (D.follows && D.follows.length) {
+  const Fo = D.follows;
+  const s = sec(++no, "だれのあとにだれ", S.follows_heading || `${NM(Fo[0].after)}のあとには${NM(Fo[0].who)}`);
+  s.append($("p", { text: "会話の中で、ある人のすぐあとに書いた人の組み合わせ。" }));
+  s.append($("div", { class: "card" }, barRows(Fo.map(f => ({ label: `${NM(f.after)} → ${NM(f.who)}`, n: f.n })), "回")));
+}
+
+// 12. highlights
+{
+  const Hl = D.highlights;
+  const s = sec(++no, "名場面", S.highlights_heading || "名場面");
+  s.append($("p", { class: "note", text: "トークにいない人の名前は〇〇にした。" }));
+  s.append($("h3", { text: `いちばん話した日（${md(F.best_day.date)}）` }), talk(Hl.best_day));
+  if (Hl.longest_text[0] && S.show_longest_text !== false) s.append($("h3", { text: "いちばん長いメッセージ" }),
+    $("blockquote", { style: `border-left-color:${CI(Hl.longest_text[0].who)}` }, Hl.longest_text[0].text, $("span", { class: "meta", text: `${NM(Hl.longest_text[0].who)} · ${Hl.longest_text[0].date}` })));
+  s.append($("h3", { text: "いちばん最初のやり取り" }), talk(Hl.first));
+}
+
+// 13. next
+{
+  const s = sec(++no, "このあと", "やってみたいこと");
+  s.append($("ol", { class: "next" }, (S.next || []).map(t => $("li", { text: t }))));
+  app.append($("footer", { text: "データ: LINE のトークを書き出した txt。分かち書きは Sudachi（SplitMode C）。URL・LINE の絵文字・メンションを除いて数えた。口座・連絡先・住所らしきものを含むメッセージは外した。" }));
+}
+
+// theme toggle
+document.getElementById("theme").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme")
+    || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+});
+</script>
+</body>
+</html>

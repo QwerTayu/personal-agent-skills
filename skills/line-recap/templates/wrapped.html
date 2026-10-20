@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* スライドは背景色を自分で持つので、ライト・ダークで同じ見た目にする */
+:root {
+  --b1: #0d366b; --b2: #1c5cab; --b3: #256abf; --b4: #104281; --ink-dark: #0b0b0b;
+  --pale: #cde2fb; --pale-2: #9ec5f4; --night: #0d0d0d;
+  /* 人ごとの色（濃い背景の上）。p0（本人）は白 */
+  --c0: #ffffff; --c1: #ffb37a; --c2: #8de0b4; --c3: #cdb4ff; --c4: #ff9fb1; --c5: #d8d4c8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--night); overflow: hidden; }
+body { font-family: "Zen Kaku Gothic New", system-ui, sans-serif; color: #fff; -webkit-tap-highlight-color: transparent; }
+.deck { position: fixed; inset: 0; display: grid; place-items: center; }
+.frame { position: relative; width: min(100vw, calc(100dvh * 9 / 16)); height: min(100dvh, calc(100vw * 16 / 9)); overflow: hidden; border-radius: 0; container-type: inline-size; }
+@media (min-aspect-ratio: 10/16) { .frame { border-radius: 18px; height: min(96dvh, calc(100vw * 16 / 9)); width: calc(min(96dvh, calc(100vw * 16 / 9)) * 9 / 16); } }
+.slide { position: absolute; inset: 0; padding: 72px 28px 40px; display: flex; flex-direction: column; justify-content: center; gap: 14px; opacity: 0; visibility: hidden; transition: opacity .35s ease, transform .35s ease; transform: translateY(12px); }
+.slide.on { opacity: 1; visibility: visible; transform: none; }
+.progress { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; gap: 4px; z-index: 5; }
+.progress i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.3); overflow: hidden; }
+.progress i b { display: block; height: 100%; width: 0; background: #fff; }
+.progress i.done b { width: 100%; }
+.play { position: absolute; top: 24px; right: 16px; z-index: 6; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.18); color: #fff; font-size: 14px; line-height: 36px; text-align: center; cursor: pointer; padding: 0; }
+.play:hover { background: rgba(255,255,255,0.3); }
+.play:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.tag { position: absolute; top: 28px; left: 28px; font-family: "IBM Plex Mono", monospace; font-size: 12px; opacity: .75; z-index: 5; }
+.k { font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .06em; opacity: .8; }
+.h { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900; font-size: clamp(26px, 7.4cqw, 40px); line-height: 1.3; margin: 0; white-space: pre-line; }
+.big { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: clamp(64px, 24cqw, 128px); line-height: 1; letter-spacing: -0.03em; }
+.big small { font-size: .3em; letter-spacing: 0; margin-left: 6px; font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 500; }
+.p { font-size: 16px; line-height: 1.8; opacity: .92; margin: 0; }
+.talk { display: grid; gap: 6px; }
+.talk .msg { max-width: 85%; background: rgba(255,255,255,0.14); border-radius: 14px; padding: 8px 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.talk .msg.me { justify-self: end; background: rgba(255,255,255,0.28); }
+.talk .msg .meta { display: block; font-family: "IBM Plex Mono", monospace; font-size: 10px; opacity: .7; }
+.bars { display: flex; align-items: flex-end; gap: 3px; height: 120px; }
+.bars div { flex: 1; background: rgba(255,255,255,0.35); border-radius: 3px 3px 0 0; min-height: 2px; }
+.bars div.hi { background: #fff; }
+.axis { display: flex; justify-content: space-between; font-family: "IBM Plex Mono", monospace; font-size: 11px; opacity: .7; }
+.list { display: grid; gap: 10px; }
+.li { display: grid; grid-template-columns: 2.2em 1fr auto; align-items: baseline; gap: 10px; font-size: 18px; }
+.li .r { font-family: "IBM Plex Mono", monospace; opacity: .7; font-size: 14px; }
+.li .n { font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+.li.first { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900; font-size: 26px; }
+.period { border-left: 3px solid rgba(255,255,255,0.5); padding: 2px 0 2px 12px; }
+.period .when { font-family: "IBM Plex Mono", monospace; font-size: 12px; opacity: .75; }
+.period .t { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900; font-size: 19px; line-height: 1.4; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border-radius: 999px; padding: 3px 12px; background: rgba(255,255,255,0.16); font-size: 15px; }
+.chip.on { background: #fff; color: var(--b1); font-weight: 500; }
+.stats { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 6px; }
+.stats b { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: clamp(24px, 8cqw, 34px); line-height: 1.1; }
+.stats span { font-size: 12px; opacity: .8; }
+.hb { display: grid; grid-template-columns: 7.5em 1fr 4.6em; gap: 8px; align-items: center; font-size: 14px; }
+.hb .t { height: 10px; border-radius: 5px; background: rgba(255,255,255,0.2); overflow: hidden; }
+.hb .t i { display: block; height: 100%; background: #fff; border-radius: 5px; }
+.hb .v { font-family: "IBM Plex Mono", monospace; font-weight: 500; text-align: right; }
+.hb > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wide .hb { grid-template-columns: 11em 1fr 3.6em; }
+.split { display: flex; height: 34px; border-radius: 8px; overflow: hidden; font-size: 12px; font-weight: 500; color: var(--ink-dark); }
+.split div { display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; min-width: 0; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.vs > div { background: rgba(255,255,255,0.10); border-radius: 14px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.vs .name { font-weight: 500; font-size: 15px; }
+.slide > .hint { opacity: .6; transform: none; }
+.hint { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; font-size: 12px; opacity: .6; }
+.nav { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 2fr; z-index: 4; }
+.nav button { background: none; border: 0; cursor: pointer; }
+.nav button:focus-visible { outline: 2px solid #fff; outline-offset: -6px; }
+.bg-1 { background: var(--b3); }
+.bg-2 { background: var(--b1); }
+.bg-3 { background: var(--pale); color: var(--ink-dark); --c0: #104281; --c1: #b4561a; --c2: #1d7a52; --c3: #6a3fb0; --c4: #b0334f; --c5: #5f5c54; }
+.bg-3 .talk .msg, .bg-3 .chip, .bg-3 .vs > div { background: rgba(13,54,107,0.10); }
+.bg-3 .talk .msg.me { background: rgba(13,54,107,0.20); }
+.bg-3 .bars div { background: rgba(13,54,107,0.25); } .bg-3 .bars div.hi { background: var(--b1); }
+.bg-3 .period { border-color: rgba(13,54,107,0.4); }
+.bg-3 .hb .t { background: rgba(13,54,107,0.14); } .bg-3 .hb .t i { background: var(--b1); }
+.bg-3 .split { color: #fff; }
+.bg-4 { background: var(--night); }
+.bg-5 { background: var(--b2); }
+.bg-grad { background: linear-gradient(160deg, var(--b3) 0%, var(--b1) 70%, var(--night) 100%); }
+.bg-6 { background: linear-gradient(200deg, #3d2a7a 0%, var(--b1) 80%); }
+.bg-7 { background: linear-gradient(160deg, #1d6b5a 0%, var(--b1) 85%); }
+.bg-8 { background: linear-gradient(170deg, #8a3b2f 0%, #3a1f4f 90%); }
+/* 1.2 秒おいてから出す（いちばん使った言葉など） */
+.reveal { opacity: 0; transform: scale(.7); transition: opacity .5s ease, transform .6s cubic-bezier(.2,1.4,.4,1); }
+.reveal.shown { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+/* 24 時間の時計 */
+.clock { width: min(100%, 300px); align-self: center; }
+.clock text { font-family: "IBM Plex Mono", monospace; fill: currentColor; }
+/* 表彰 */
+.award-emoji { font-size: clamp(64px, 22cqw, 110px); line-height: 1; }
+.award-name { font-size: 18px; font-weight: 500; }
+.award-title { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900; font-size: clamp(34px, 11cqw, 56px); line-height: 1.2; margin: 0; }
+.award-stat { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 500; }
+/* まとめカード */
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.card-grid > div { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 10px 12px; }
+.card-grid b { display: block; font-family: "IBM Plex Mono", monospace; font-size: clamp(18px, 6cqw, 24px); line-height: 1.2; overflow-wrap: anywhere; }
+.card-grid span { font-size: 11px; opacity: .8; }
+.card-awards { display: grid; gap: 4px; font-size: 14px; }
+/* 対決（1 対 1）。対決名 → 結果の順に 1 つずつ出す */
+.vs-list { display: grid; gap: 32px; }
+.vs-item { display: grid; gap: 4px; }
+.vs-item .q { font-size: 13px; font-weight: 500; }
+/* 帯: 左右から 2 人の色が伸びて、割合のところでぶつかる。負けた側はあとで薄くする */
+.vs-bar { position: relative; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.10); overflow: hidden; }
+.vs-bar i { position: absolute; top: 0; bottom: 0; width: 0; transition: width .9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms), opacity .4s ease var(--d2, 0ms); }
+.vs-bar i.l { left: 0; } .vs-bar i.r { right: 0; }
+.slide.on .vs-bar i { width: var(--w); }
+.slide.on .vs-bar i.lose { opacity: .3; }
+.vs-names { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
+.vs-names .side { display: flex; align-items: baseline; gap: 6px; }
+.vs-names .side.r { flex-direction: row-reverse; }
+.vs-names .who { font-weight: 500; }
+.vs-names .v { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 18px; }
+.vs-names .side.win .v { font-size: 22px; }
+.vs-names .side.lose { opacity: .65; }
+.vs-result { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900; font-size: clamp(28px, 9cqw, 40px); line-height: 1.2; margin-top: 10px; text-align: center; }
+/* 勝敗は、1 文字ずつ大きく傾いた状態から弾むように着地させる */
+.vs-result .ch { transform: translateY(.9em) scale(1.9) rotate(-14deg); transition: opacity .3s ease var(--d, 0ms), transform .75s cubic-bezier(.2,1.7,.35,1) var(--d, 0ms); }
+.slide.on .vs-result .ch { transform: none; }
+/* 章（物語の版） */
+.chapter-no { font-family: "IBM Plex Mono", monospace; font-size: 14px; opacity: .8; }
+@media (prefers-reduced-motion: reduce) { .slide { transition: none; transform: none; } }
+/* 控えめな動き。--d は animate() が要素ごとに決める遅れ。スライドを離れたら、すぐ元に戻す（戻ってきたら再生し直す） */
+.slide > *, .anim { opacity: 0; transform: translateY(12px); transition: opacity .5s ease var(--d, 0ms), transform .6s cubic-bezier(.2,.8,.2,1) var(--d, 0ms); }
+.slide.on > *, .slide.on .anim { opacity: 1; transform: none; }
+.slide > .kin { opacity: 1; transform: none; }
+/* kinetic typography: 見出しを 1 文字ずつ立ち上げる */
+.ch { display: inline-block; opacity: 0; transform: translateY(.45em) rotate(6deg); transition: opacity .4s ease var(--d, 0ms), transform .55s cubic-bezier(.2,1.3,.4,1) var(--d, 0ms); }
+.ch.sp { white-space: pre; }
+.slide.on .ch { opacity: 1; transform: none; }
+/* 横棒は 0 から伸ばし、割合の帯は左から開く */
+.hb .t i { width: 0; transition: width .9s cubic-bezier(.2,.8,.2,1) var(--d, 0ms); }
+.slide.on .hb .t i { width: var(--w); }
+.split { clip-path: inset(0 100% 0 0 round 8px); transition: opacity .5s ease var(--d, 0ms), transform .6s ease var(--d, 0ms), clip-path 1s cubic-bezier(.2,.8,.2,1) calc(var(--d, 0ms) + 150ms); }
+.slide.on .split { clip-path: inset(0 0 0 0 round 8px); }
+.tick { opacity: 0; transition: opacity .35s ease var(--d, 0ms); }
+.slide.on .tick { opacity: 1; }
+.slide:not(.on) * { transition: none !important; }
+/* reveal は、ほかの動きより後に出す */
+.slide.on .reveal:not(.shown) { opacity: 0; transform: scale(.7); }
+@media (prefers-reduced-motion: reduce) {
+  .slide > *, .anim, .ch, .tick { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .split { clip-path: none !important; transition: none !important; }
+  .hb .t i, .vs-bar i { width: var(--w) !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="deck"><div class="frame" id="frame">
+  <div class="progress" id="progress"></div>
+  <div class="tag" id="tag"></div>
+  <div id="slides"></div>
+  <button class="play" type="button" id="play" aria-label="自動再生を止める" aria-pressed="true">⏸</button>
+  <div class="nav"><button type="button" id="prev" aria-label="前のスライド"></button><button type="button" id="next" aria-label="次のスライド"></button></div>
+</div></div>
+<script>
+const D = /*__DATA__*/null;
+const S = /*__STORY__*/null;
+
+const $ = (tag, attrs = {}, ...kids) => {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") el.className = v;
+    else if (k === "text") el.textContent = v ?? "";
+    else if (k === "style") el.style.cssText = v;
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid != null) el.append(kid);
+  return el;
+};
+const SVG = (tag, attrs = {}) => {
+  const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+};
+const fmt = n => n.toLocaleString("ja-JP");
+const md = iso => { const d = new Date(iso); return `${d.getMonth() + 1}月${d.getDate()}日`; };
+const pct = x => `${Math.round(x * 100)}%`;
+const dur = m => m == null ? "—" : m >= 90 ? `${(m / 60).toFixed(1)}時間` : `${m}分`;
+const F = D.facts, W = D.when, Wt = D.what, H = D.habits, T = D.talks, Sp = D.speed, C = D.calls, R = D.rhythm;
+
+// 人。p0 が本人
+const PP = D.people, PAIR = D.talk.mode === "pair", ME = PP[0], YOU = PP[1];
+const NM = k => (PP.find(p => p.key === k) || {}).name || "だれか";
+const CI = k => `var(--c${Math.min(5, +String(k).slice(1))})`;
+const sum = o => Object.values(o || {}).reduce((a, b) => a + b, 0);
+const ranked = values => PP.map(p => ({ key: p.key, n: values[p.key] || 0 })).sort((a, b) => b.n - a.n);
+const nameEl = k => $("span", {}, $("i", { class: "dot", style: `background:${CI(k)}` }), NM(k));
+
+// 横棒。v は 0〜1 の割合か件数（max で割る）。key があればその人の色と名前
+const hbars = (items, max, show) => $("div", { class: "list" }, items.map(x => $("div", { class: "hb" },
+  x.key && !x.label ? nameEl(x.key) : $("span", { text: x.label }),
+  $("div", { class: "t" }, $("i", { style: `width:${(100 * x.v / (max || 1)).toFixed(1)}%${x.key ? `;background:${CI(x.key)}` : ""}` })), $("span", { class: "v", text: show(x.v) }))));
+const big = (n, unit) => $("div", { class: "big", "data-count": n }, $("span", { text: Number.isInteger(n) ? fmt(n) : String(n) }), unit ? $("small", { text: unit }) : null);
+const split = values => {
+  const total = sum(values) || 1;
+  return $("div", { class: "split" }, ranked(values).filter(x => x.n).map(x =>
+    $("div", { style: `flex:${x.n};background:${CI(x.key)}`, text: x.n / total >= 0.15 ? `${NM(x.key)} ${pct(x.n / total)}` : "" })));
+};
+const cut = (t, n) => t.length > n ? t.slice(0, n) + "…" : t;
+const talk = (msgs, n = 5) => $("div", { class: "talk" }, msgs.slice(0, n).map(m => $("div", { class: `msg${m.who === ME.key ? " me" : ""}` },
+  $("span", { class: "meta", text: PAIR ? m.date.slice(11) : `${NM(m.who)} · ${m.date.slice(11)}` }), cut(m.text, 60))));
+
+const slides = [];
+// 1 文字ずつの span に分ける（文字だけの要素のとき）。\n は改行にする
+const kinetic = (el, d0, step = 28) => {
+  if ([...el.childNodes].some(n => n.nodeType !== 3)) return false;
+  const text = el.textContent;
+  el.textContent = "";
+  [...text].forEach((c, k) => {
+    if (c === "\n") { el.append(document.createElement("br")); return; }
+    const s = $("span", { class: "ch" + (c === " " ? " sp" : ""), text: c });
+    s.style.setProperty("--d", `${d0 + Math.min(k, 24) * step}ms`);
+    el.append(s);
+  });
+  el.classList.add("kin");
+  return true;
+};
+// スライドの中身に、上から順に少しずつ遅れて出る動きを付ける
+const animate = slide => {
+  [...slide.children].forEach((c, i) => {
+    // 遅れをスライドの側で決めたもの（対決の勝敗など）は、そのままにする
+    const d = 120 + i * 110;
+    if (!c.style.getPropertyValue("--d")) c.style.setProperty("--d", `${d}ms`);
+    if ((c.matches(".h, .award-title")) && !c.matches(".reveal")) kinetic(c, d);
+    const stagger = (sel, start, step, cls = "anim") => c.querySelectorAll(sel).forEach((el, j) => {
+      if (cls) el.classList.add(cls);
+      el.style.setProperty("--d", `${d + start + j * step}ms`);
+    });
+    stagger(".msg", 250, 420);
+    stagger(".chip", 150, 70);
+    stagger(".li, .stats > div, .card-grid > div, .card-awards > div, .period", 120, 90);
+    stagger("line", 0, 25, "tick");
+    c.querySelectorAll(".hb .t i").forEach((bar, j) => {
+      bar.style.setProperty("--w", bar.style.width);
+      bar.style.width = "";
+      bar.style.setProperty("--d", `${d + 250 + j * 90}ms`);
+    });
+  });
+  return slide;
+};
+const add = (bg, ...kids) => slides.push(animate($("section", { class: `slide ${bg}` }, ...kids)));
+// スライドの文は talks/<slug>/story.json の wrapped に書く。書かなければ数字から作る
+const SW = S.wrapped;
+document.getElementById("tag").textContent = D.talk.title;
+const N_ = PP.length;
+const msgs = Object.fromEntries(PP.map(p => [p.key, F.per_person[p.key].messages]));
+// 称号は recap.json の awards（自動の候補）を、story.json の wrapped.awards（呼び名 → {title, body, emoji}）で上書きする
+const AW = (D.awards || []).map(a => ({ ...a, ...((SW.awards || {})[NM(a.key)] || {}) }));
+const awardOf = k => AW.find(a => a.key === k);
+// その人のいちばん割合の高い言い回し。story.json の wrapped.habits_keys があれば、その中から選ぶ
+const exprTop = k => H[k].expressions.filter(e => !SW.habits_keys || SW.habits_keys.includes(e[0])).sort((a, b) => b[2] - a[2])[0];
+const quickPool = PP.map(p => p.key).filter(k => Sp[k] && Sp[k].n >= 30);
+
+// ---- どちらの版でも使うスライド ----
+const sIntro = () => add("bg-grad",
+  $("div", { class: "k", text: `${F.first.replaceAll("-", ".")} – ${F.last.replaceAll("-", ".")}` }),
+  $("h1", { class: "h", style: "font-size:clamp(34px,11cqw,56px)", text: SW.intro_title }),
+  $("p", { class: "p", text: `${PP.map(p => p.name).join(PAIR ? "と" : "・")}の${F.span_days}日分。タップで次へ。` }));
+
+const sTotal = () => add("bg-1",
+  $("div", { class: "k", text: SW.messages_kicker || `この${F.span_days}日で送りあったメッセージ` }),
+  big(F.messages, "件"),
+  $("p", { class: "p", text: `${F.span_days}日のうち${F.days}日、なにか話していた。` }),
+  $("div", { class: "stats" },
+    $("div", {}, $("b", { text: fmt(F.media.sticker || 0) }), $("span", { text: "スタンプ" })),
+    $("div", {}, $("b", { text: fmt(F.media.photo || 0) }), $("span", { text: "写真" })),
+    C && C.n ? $("div", {}, $("b", { text: fmt(C.n) }), $("span", { text: "通話" })) : $("div", {}, $("b", { text: fmt(T.n) }), $("span", { text: "会話" }))));
+
+const sShare = () => {
+  const top = ranked(msgs)[0];
+  add("bg-5",
+    $("div", { class: "k", text: "だれがどれだけ話した？" }),
+    $("h2", { class: "h", text: SW.share_heading || `${NM(top.key)}が\n${pct(top.n / F.messages)}を占めていた` }),
+    split(msgs),
+    hbars(ranked(msgs).slice(0, 6).map(x => ({ key: x.key, v: x.n })), top.n, v => `${fmt(v)}件`),
+    SW.messages_body ? $("p", { class: "p", text: SW.messages_body }) : null);
+};
+
+const sPeriods = () => add("bg-4",
+  $("div", { class: "k", text: SW.periods_kicker || "ふりかえると" }),
+  $("h2", { class: "h", text: S.what_heading }),
+  ...Wt.periods.map(p => $("div", { class: "period" },
+    $("div", { class: "when", text: p.label }), $("div", { class: "t", text: S.periods[p.key]?.title || p.label }),
+    $("div", { class: "chips", style: "margin-top:6px" }, p.words.slice(0, 4).map(w => $("span", { class: "chip", text: w.word }))))));
+
+// いちばん長く続いた会話が、いちばん話した日と同じ日なら、1 枚にまとめる
+const sameDay = T.longest.start.slice(0, 10) === F.best_day.date;
+const hm = iso => `${+iso.slice(11, 13)}時${iso.slice(14, 16)}分`;
+const sBestDay = () => add("bg-2",
+  $("div", { class: "k", text: sameDay ? "いちばん話した日で、いちばん長く続いた会話" : "いちばん話した日" }),
+  $("h2", { class: "h", text: `${md(F.best_day.date)}（${F.best_day.weekday}）` }),
+  big(F.best_day.n, "件"),
+  sameDay ? $("p", { class: "p", text: `${hm(T.longest.start)}から${hm(T.longest.end)}まで、${dur(T.longest.minutes)}話し続けた。` }) : null,
+  SW.best_day_body ? $("p", { class: "p", text: SW.best_day_body }) : null,
+  SW.best_day_quote != null && D.highlights.best_day[SW.best_day_quote] ? talk(D.highlights.best_day.slice(SW.best_day_quote, SW.best_day_quote + 3), 3) : null);
+
+const sTopWord = () => { if (Wt.words.length) add("bg-1",
+  $("div", { class: "k", text: "いちばん使った言葉は……" }),
+  $("h2", { class: "h reveal", style: "font-size:clamp(44px,16cqw,84px)", text: `「${Wt.words[0].word}」` }),
+  $("div", { class: "reveal" }, big(Wt.words[0].n, "回")),
+  $("div", { class: "list reveal" }, Wt.words.slice(1, 5).map((w, i) => $("div", { class: "li" }, $("span", { class: "r", text: `${i + 2}` }), $("span", { text: w.word }), $("span", { class: "n", text: w.n })))),
+  SW.top_word_body ? $("p", { class: "p reveal", text: SW.top_word_body }) : null); };
+
+// よく話す時間: 24 時間の時計。棒の長さが件数、白い棒がいちばん多い時間
+const sClock = () => {
+  const by = W.by_hour, mx = Math.max(...by), cx = 150, cy = 150, r0 = 58, r1 = 132;
+  const svg = SVG("svg", { class: "clock", viewBox: "-12 -12 324 324", role: "img", "aria-label": "時間帯ごとのメッセージ数" });
+  svg.append(SVG("circle", { cx, cy, r: r0 - 6, fill: "none", stroke: "rgba(255,255,255,.25)" }));
+  by.forEach((v, h) => {
+    const a = (h + 0.5) / 24 * 2 * Math.PI - Math.PI / 2, len = (r1 - r0) * v / mx;
+    svg.append(SVG("line", { x1: cx + r0 * Math.cos(a), y1: cy + r0 * Math.sin(a), x2: cx + (r0 + Math.max(2, len)) * Math.cos(a), y2: cy + (r0 + Math.max(2, len)) * Math.sin(a),
+      stroke: h === W.peak_hour ? "#fff" : "rgba(255,255,255,.4)", "stroke-width": 9, "stroke-linecap": "round" }));
+  });
+  [0, 6, 12, 18].forEach(h => {
+    const a = h / 24 * 2 * Math.PI - Math.PI / 2, t = SVG("text", { x: cx + (r1 + 14) * Math.cos(a), y: cy + (r1 + 14) * Math.sin(a) + 4, "text-anchor": "middle", "font-size": 12, opacity: .75 });
+    t.textContent = `${h}時`; svg.append(t);
+  });
+  const c = SVG("text", { x: cx, y: cy + 10, "text-anchor": "middle", "font-size": 30, "font-weight": 500 }); c.textContent = `${W.peak_hour}時`; svg.append(c);
+  const peaks = PP.slice(0, 6).filter(p => W.peak_hour_people[p.key] != null);
+  add("bg-2",
+    $("div", { class: "k", text: "よく話す時間" }),
+    $("h2", { class: "h", text: SW.hour_heading || `${W.peak_hour}時台がいちばん多い` }),
+    svg,
+    $("div", { class: "chips" }, peaks.map(p => $("span", { class: "chip" }, nameEl(p.key), ` ${W.peak_hour_people[p.key]}時`))),
+    $("p", { class: "p", style: "font-size:14px", text: SW.hour_body || `夜（21〜3時）が全体の${pct(W.night_share)}。` }));
+};
+
+const sHabits = () => {
+  const rows = PP.slice(0, 6).map(p => ({ key: p.key, e: exprTop(p.key) })).filter(x => x.e && x.e[1] > 0);
+  if (rows.length) add("bg-6",
+    $("div", { class: "k", text: "口ぐせ" }),
+    $("h2", { class: "h", text: SW.habits_heading || "いちばん出る言い回し" }),
+    $("div", { class: "list" }, rows.map(r => $("div", { class: "li" }, $("span", { class: "r" }, $("i", { class: "dot", style: `background:${CI(r.key)}` })),
+      $("span", { text: `${NM(r.key)}の「${r.e[0]}」` }), $("span", { class: "n", text: `${fmt(r.e[1])}回` })))),
+    $("p", { class: "p", text: SW.habits_body || "その人のメッセージに占める割合がいちばん高い言い回し。" }));
+};
+
+const sStarters = () => {
+  const st = ranked(T.starters)[0];
+  add("bg-1",
+    $("div", { class: "k", text: "会話を始めるのは" }),
+    $("h2", { class: "h", text: SW.talks_heading || NM(st.key) }),
+    big(Math.round(100 * st.n / T.n), "%"),
+    $("p", { class: "p", text: SW.talks_body || `${fmt(T.n)}回の会話のうち、${fmt(st.n)}回を${NM(st.key)}が始めた。` }),
+    split(T.starters));
+};
+
+const sQuick = () => {
+  const ks = quickPool.length ? quickPool : PP.map(p => p.key).filter(k => Sp[k]);
+  if (!ks.length) return;
+  const fast = [...ks].sort((a, b) => Sp[b].same_minute - Sp[a].same_minute)[0];
+  add("bg-7",
+    $("div", { class: "k", text: "即レス王は" }),
+    $("h2", { class: "h", text: SW.speed_heading || NM(fast) }),
+    big(Math.round(Sp[fast].same_minute * 100), "%"),
+    $("p", { class: "p", text: SW.speed_body || "相手が書いてから1分以内に返した割合（即レス率）。" }),
+    hbars(ks.slice(0, 6).map(k => ({ key: k, v: Sp[k].same_minute })), 1, pct));
+};
+
+const sLongestTalk = () => add("bg-8",
+  $("div", { class: "k", text: "いちばん長く続いた会話" }),
+  $("h2", { class: "h", text: SW.longest_talk_heading || `${md(T.longest.start)}、${dur(T.longest.minutes)}` }),
+  $("p", { class: "p", text: SW.longest_talk_body || `${fmt(T.longest.n)}件のやり取り。` }),
+  talk(D.highlights.longest_talk, 4));
+
+// 毎日話した最長: 何を話していたか（その期間の特徴語と吹き出し）
+const sRhythm = () => {
+  // 吹き出しは build.py が wrapped.streak_quotes で選んだものだけを残している
+  const st = R.streak, ws = (st.words || []).slice(0, 5), quotes = (st.quotes || []).slice(0, 3);
+  add("bg-5",
+    $("div", { class: "k", text: "毎日話した最長" }),
+    big(st.days, "日"),
+    $("p", { class: "p", text: `${md(st.start)}から${md(st.end)}まで、${fmt(st.messages || 0)}件。` }),
+    $("h2", { class: "h", style: "font-size:clamp(20px,6cqw,28px)", text: SW.rhythm_body || (ws.length >= 2 ? `「${ws[0].word}」「${ws[1].word}」の話をしていた` : "毎日なにか話していた") }),
+    ws.length ? $("div", { class: "chips" }, ws.map((w, i) => $("span", { class: "chip" + (i < 2 ? " on" : ""), text: w.word }))) : null,
+    quotes.length ? talk(quotes, 3) : null);
+};
+
+// まとめカード（スクショ用）
+const sCard = () => add("bg-grad",
+  $("div", { class: "k", text: `${D.talk.title} · ${F.first.slice(0, 7).replace("-", ".")}–${F.last.slice(0, 7).replace("-", ".")}` }),
+  $("h2", { class: "h", style: "font-size:clamp(24px,7cqw,34px)", text: SW.card_heading || "まとめ" }),
+  $("div", { class: "card-grid" },
+    $("div", {}, $("b", { text: fmt(F.messages) }), $("span", { text: "メッセージ" })),
+    $("div", {}, $("b", { text: `${F.days}日` }), $("span", { text: "話した日" })),
+    $("div", {}, $("b", { text: Wt.words[0] ? `「${Wt.words[0].word}」` : "—" }), $("span", { text: "いちばん使った言葉" })),
+    $("div", {}, $("b", { text: `${W.peak_hour}時台` }), $("span", { text: "よく話す時間" })),
+    $("div", {}, $("b", { text: md(F.best_day.date) }), $("span", { text: "いちばん話した日" })),
+    $("div", {}, $("b", { text: `${R.streak.days}日` }), $("span", { text: "毎日話した最長" }))),
+  AW.length ? $("div", { class: "card-awards" }, AW.map(a => $("div", {}, nameEl(a.key), ` ${a.emoji} ${a.title}`))) : null,
+  $("p", { class: "p", style: "font-size:12px;opacity:.7", text: SW.card_body || "スクショして残してね" }),
+  $("div", { class: "hint", text: "← → / タップで戻る・進む · P で再生と一時停止" }));
+
+// ---- 対決（1 対 1 だけ）----
+// 1 枚に 4 つの対決を並べる。対決名と空の帯を出し、0.6 秒後に帯を伸ばし、伸びきったら数字と勝った側を出す。
+// 帯を伸ばしはじめてから 2.6 秒後に次の対決名。最後の結果から少しあけて勝敗を出す。
+// スライドの表示時間は対決の数で決まる。差が 1 割未満なら互角にして、勝敗に数えない
+const VS_START = 500, VS_GAP = 600, VS_GROW = 900, VS_NEXT = 2600, VS_PAUSE = 1200, VS_CHAR = 70, VS_LINGER = 2000;
+const sBattles = () => {
+  const [a, b] = PP.map(p => p.key), of = f => Object.fromEntries([a, b].map(k => [k, f(k)]));
+  const rows = [
+    ["スタンプが多いのは？", of(k => F.per_person[k].media.sticker || 0), v => `${v}個`],
+    ["長文なのは？", of(k => F.per_person[k].median_len), v => `${v}字`],
+    C && C.kind === "pair" && sum(C.tried) ? ["電話をかけるのは？", of(k => C.tried[k] || 0), v => `${v}回`] : null,
+    sum(D.thanks) ? ["「ありがとう」が多いのは？", of(k => D.thanks[k] || 0), v => `${v}回`] : null,
+  ].filter(r => r && r[1][a] != null && r[1][b] != null && (r[1][a] || r[1][b]));
+  if (!rows.length) return;
+  const wins = { [a]: 0, [b]: 0 };
+  const at = (el, ms) => { el.classList.add("anim"); el.style.setProperty("--d", `${ms}ms`); return el; };
+  const items = rows.map(([q, vals, show], i) => {
+    const hi = Math.max(vals[a], vals[b]), lo = Math.min(vals[a], vals[b]);
+    const even = hi === 0 || lo / hi >= 0.9;
+    const win = even ? null : vals[a] > vals[b] ? a : b;
+    if (win) wins[win]++;
+    const t = VS_START + i * (VS_GAP + VS_NEXT), tGrow = t + VS_GAP, tShow = tGrow + VS_GROW;
+    const total = vals[a] + vals[b] || 1;
+    const seg = (k, side) => {
+      const el = $("i", { class: side + (win && k !== win ? " lose" : ""), style: `background:${CI(k)}` });
+      el.style.setProperty("--w", `${(100 * vals[k] / total).toFixed(1)}%`);
+      el.style.setProperty("--d", `${tGrow}ms`);
+      el.style.setProperty("--d2", `${tShow}ms`);
+      return el;
+    };
+    const side = (k, cls) => $("div", { class: `side ${cls}` + (k === win ? " win" : win ? " lose" : "") },
+      $("span", { class: "who", text: `${k === win ? "👑 " : ""}${NM(k)}` }),
+      at($("span", { class: "v", text: show(vals[k]) }), tShow));
+    return $("div", { class: "vs-item" },
+      at($("div", { class: "q" }, q, even ? at($("span", { text: "　互角" }), tShow) : null), t),
+      at($("div", { class: "vs-bar" }, seg(a, "l"), seg(b, "r")), t),
+      at($("div", { class: "vs-names" }, side(a, "l"), side(b, "r")), t));
+  });
+  const top = wins[a] === wins[b] ? null : wins[a] > wins[b] ? a : b;
+  const tEnd = VS_START + (rows.length - 1) * (VS_GAP + VS_NEXT) + VS_GAP + VS_GROW + VS_PAUSE;
+  const result = $("div", { class: "vs-result", text: top ? `${NM(top)}の${wins[top]}勝！` : `引き分け（${wins[a]}勝ずつ）` });
+  result.style.setProperty("--d", `${tEnd}ms`);
+  kinetic(result, tEnd, VS_CHAR);
+  add("bg-4",
+    $("div", { class: "k", text: "対決" }),
+    $("h2", { class: "h", style: "font-size:clamp(22px,6.4cqw,30px)", text: SW.battle_heading || "ふたりを比べると" }),
+    $("div", { class: "vs-list" }, items),
+    result,
+    SW.battle_body ? $("p", { class: "p", text: SW.battle_body }) : null);
+  slides[slides.length - 1].dataset.dur = tEnd + [...result.textContent].length * VS_CHAR + 750 + VS_LINGER;
+};
+
+// ---- 表彰式 ----
+const sAward = (a, i) => {
+  const ws = Wt.people[a.key].distinct.slice(0, 3);
+  add(["bg-6", "bg-7", "bg-8", "bg-5", "bg-2", "bg-1"][i % 6],
+    $("div", { class: "k", text: `表彰 ${i + 1}/${AW.length}` }),
+    $("div", { class: "award-emoji reveal", text: a.emoji }),
+    $("div", { class: "award-name" }, nameEl(a.key)),
+    $("h2", { class: "award-title", text: a.title }),
+    $("div", { class: "award-stat", text: a.stat }),
+    a.body ? $("p", { class: "p", text: a.body }) : null,
+    ws.length ? $("div", { class: "chips" }, ws.map(w => $("span", { class: "chip", text: w.word }))) : null);
+};
+
+// ---- 期間の章 ----
+const sFirst = () => add("bg-2",
+  $("div", { class: "k", text: "はじまり" }),
+  $("h2", { class: "h", text: SW.first_heading || `${md(F.first)}、最初のやり取り` }),
+  talk(D.highlights.first, 4));
+// 章の吹き出しは build.py が wrapped.chapter_quotes で選んだものだけを残している
+const chapterQuotes = key => ((D.highlights.periods || {})[key] || []).slice(0, 3);
+const sChapter = (p, i) => {
+  const st = S.periods[p.key] || { title: p.label, body: "" };
+  add(["bg-6", "bg-7", "bg-8", "bg-5"][i % 4],
+    $("div", { class: "chapter-no", text: `第${i + 1}章 · ${p.label} · ${fmt(p.n)}件` }),
+    $("h2", { class: "h", text: st.title }),
+    st.body ? $("p", { class: "p", text: st.body }) : null,
+    $("div", { class: "chips" }, p.words.slice(0, 5).map((w, j) => $("span", { class: "chip" + (j === 0 ? " on" : ""), text: w.word }))),
+    talk(chapterQuotes(p.key), 3));
+};
+const sSection = (kicker, heading, body) => add("bg-grad",
+  $("div", { class: "k", text: kicker }),
+  $("h2", { class: "h", style: "font-size:clamp(32px,10cqw,52px)", text: heading }),
+  body ? $("p", { class: "p", text: body }) : null);
+
+// ---- 並び ----
+// 期間ごとの章を 1 期間 1 枚で続けて出し、全期間で数えたもの、表彰式、まとめの順に進む
+sIntro(); sFirst(); sPeriods();
+Wt.periods.forEach(sChapter);
+sSection("ここからは", SW.overall_heading || "全期間をまとめてみた", `${F.span_days}日ぶんを、まとめて数えた。`);
+sTotal(); sBestDay(); if (!sameDay) sLongestTalk(); sRhythm(); sShare(); sTopWord(); sClock(); sStarters(); sQuick(); sHabits();
+if (PAIR) sBattles();
+if (AW.length) {
+  sSection("ここからは", SW.awards_heading || "表彰式", "数字から、ひとりずつに称号を選んだ。");
+  AW.forEach(sAward);
+}
+sCard();
+
+// deck
+const host = document.getElementById("slides"), prog = document.getElementById("progress");
+slides.forEach(s => host.append(s));
+slides.forEach(() => prog.append($("i", {}, $("b"))));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let cur = 0, revealTimer = null;
+function countUp(slide) {
+  slide.querySelectorAll("[data-count]").forEach(el => {
+    // 2.2 分のような小数は、小数点以下の桁をそろえて数える
+    const to = +el.dataset.count, span = el.querySelector("span"), dp = (el.dataset.count.split(".")[1] || "").length;
+    const show = v => dp ? v.toFixed(dp) : fmt(Math.round(v));
+    if (reduce) { span.textContent = show(to); return; }
+    const t0 = performance.now(), dur = 900;
+    const step = t => { const k = Math.min(1, (t - t0) / dur); span.textContent = show(to * (1 - (1 - k) ** 3)); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+    // タブが裏にあるなどで rAF が止まっても、最後は正しい数字にする
+    setTimeout(() => { span.textContent = show(to); }, dur + 150);
+  });
+}
+// 自動再生: 1枚あたり 5 秒（data-dur があればその時間）。上のバーが伸びきったら次へ進む
+const durOf = i => +(slides[i].dataset.dur || 5000);
+const playBtn = document.getElementById("play");
+let playing = !reduce, elapsed = 0, last = null;
+function paintBar() {
+  [...prog.children].forEach((p, j) => {
+    const w = j < cur ? 100 : j > cur ? 0 : (playing || elapsed > 0 ? 100 * elapsed / durOf(cur) : 100);
+    p.firstChild.style.width = `${w}%`;
+  });
+}
+function setPlaying(on) {
+  if (on && cur === slides.length - 1 && elapsed >= durOf(cur)) { go(0); }
+  playing = on;
+  last = null;
+  playBtn.textContent = on ? "⏸" : "▶";
+  playBtn.setAttribute("aria-pressed", String(on));
+  playBtn.setAttribute("aria-label", on ? "自動再生を止める" : "自動再生をはじめる");
+  paintBar();
+}
+function tick(t) {
+  if (playing && !document.hidden) {
+    if (last != null) elapsed += t - last;
+    last = t;
+    if (elapsed >= durOf(cur)) {
+      if (cur < slides.length - 1) go(cur + 1);
+      else { elapsed = durOf(cur); setPlaying(false); }
+    }
+    paintBar();
+  } else last = null;
+  requestAnimationFrame(tick);
+}
+function go(i) {
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  elapsed = 0; last = null;
+  slides.forEach((s, j) => { s.classList.toggle("on", j === cur); s.setAttribute("aria-hidden", j === cur ? "false" : "true"); });
+  paintBar();
+  countUp(slides[cur]);
+  // 1.2 秒おいてから出すもの（いちばん使った言葉など）。前のスライドの分は隠し直す
+  clearTimeout(revealTimer);
+  slides.forEach(s => s.querySelectorAll(".reveal").forEach(el => el.classList.remove("shown")));
+  revealTimer = setTimeout(() => slides[cur].querySelectorAll(".reveal").forEach(el => el.classList.add("shown")), reduce ? 0 : 1200);
+  try { history.replaceState(null, "", `#${cur + 1}`); } catch (e) {}
+}
+playBtn.addEventListener("click", e => { e.stopPropagation(); setPlaying(!playing); });
+document.getElementById("next").addEventListener("click", () => go(cur + 1));
+document.getElementById("prev").addEventListener("click", () => go(cur - 1));
+addEventListener("keydown", e => {
+  if (["ArrowRight", " ", "PageDown"].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+  if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+  if (e.key === "p" || e.key === "P") { e.preventDefault(); setPlaying(!playing); }
+});
+let sx = null;
+addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive: true });
+addEventListener("touchend", e => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1)); sx = null; });
+go(Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
+setPlaying(playing);
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
