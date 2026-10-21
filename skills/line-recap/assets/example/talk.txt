@@ -1,0 +1,1055 @@
+[LINE] Chat history with ボブ
+Saved on: 2026/07/01, 09:00
+
+2026/04/01 Wed
+12:25	Alice Sato	それな
+12:25	ボブ	カレーいいね
+12:26	Alice Sato	映画どうだった？
+12:27	Alice Sato	☎ Call time 12:34
+17:56	ボブ	[Sticker]
+17:58	Alice Sato	わかる
+18:00	ボブ	[Photo]
+
+2026/04/02 Thu
+18:06	Alice Sato	おやすみ〜
+18:11	ボブ	なるほど
+18:12	Alice Sato	映画どうだった？
+18:17	Alice Sato	カレー食べたい
+18:19	ボブ	なるほど
+18:20	ボブ	了解
+18:21	Alice Sato	ありがとう！
+18:22	ボブ	ちょっと待って
+18:24	Alice Sato	ありがとう！
+18:25	ボブ	いま電車
+18:25	ボブ	ありがとう
+18:30	Alice Sato	[Sticker]
+18:31	Alice Sato	ほんとに？
+18:32	Alice Sato	ほんとに？
+
+2026/04/03 Fri
+18:08	ボブ	テストやばい
+18:09	Alice Sato	おつかれさま
+18:21	Alice Sato	ねむい
+18:22	ボブ	ちょっと待って
+18:22	ボブ	明日なら行ける
+18:27	Alice Sato	そうなんだ
+18:27		ボブ unsent a message.
+
+2026/04/04 Sat
+18:08	Alice Sato	ほんとに？
+18:09	Alice Sato	やばい
+18:14	ボブ	カレーいいね
+18:14	Alice Sato	それな
+18:14	ボブ	[Photo]
+18:16	Alice Sato	[Photo]
+18:16	ボブ	[Sticker]
+18:17	Alice Sato	おつかれさま
+18:19	Alice Sato	それな
+18:20	ボブ	おやすみ
+18:21	Alice Sato	[Photo]
+
+2026/04/05 Sun
+08:13	Alice Sato	今日の授業おもしろかった！
+08:14	Alice Sato	カレー食べたい
+08:15	Alice Sato	了解です
+08:15	ボブ	週末キャンプ行こう
+08:15	Alice Sato	ちょっと遅れる！
+08:27	Alice Sato	映画どうだった？
+08:28	ボブ	うん
+08:40	ボブ	ありがとう
+14:47	ボブ	[Photo]
+14:48	Alice Sato	ちょっと遅れる！
+14:50	ボブ	テストやばい
+14:51	ボブ	了解
+14:51	ボブ	カレーいいね
+14:51	Alice Sato	写真送るね
+15:03	ボブ	今起きた
+15:08	Alice Sato	了解です
+15:08	ボブ	☎ Missed call
+21:39	ボブ	駅前でいい？
+21:41	Alice Sato	今日の授業おもしろかった！
+21:46	Alice Sato	天気いいね
+21:46	Alice Sato	ちょっと遅れる！
+21:46	Alice Sato	[Sticker]
+21:48	ボブ	いま電車
+21:50	Alice Sato	いいね〜
+21:55	ボブ	おやすみ
+22:07	ボブ	おはよ
+22:09	ボブ	まじか
+22:09	Alice Sato	了解です
+22:21	Alice Sato	了解です
+
+2026/04/06 Mon
+21:50	Alice Sato	おつかれさま
+21:50	ボブ	電話できる？
+21:50	Alice Sato	おやすみ〜
+21:52	Alice Sato	楽しみ！
+21:54	ボブ	テストやばい
+21:54	Alice Sato	おつかれさま
+21:54	Alice Sato	いいね〜
+21:55	ボブ	了解
+21:56	ボブ	[Sticker]
+22:08	ボブ	"週末の予定
+カレー作る
+そのあと映画"
+22:13	ボブ	駅前でいい？
+
+2026/04/07 Tue
+21:10	Alice Sato	天気いいね
+21:11	ボブ	なるほど
+21:12	Alice Sato	[Sticker]
+21:13	ボブ	今起きた
+21:15	Alice Sato	カレー食べたい
+21:27	ボブ	それはおもろいw
+21:28	Alice Sato	☎ Call time 3:05
+
+2026/04/08 Wed
+18:25	ボブ	了解
+18:37	Alice Sato	駅前のカフェ行かない？
+18:38	Alice Sato	写真送るね
+18:39	ボブ	[Photo]
+18:39	ボブ	それはおもろいw
+18:40	Alice Sato	駅前のカフェ行かない？
+18:41	Alice Sato	明日ひま？
+18:41	ボブ	明日なら行ける
+18:41	Alice Sato	わかる
+18:43	Alice Sato	わかる
+18:48	ボブ	駅前でいい？
+18:49	Alice Sato	☎ No answer
+
+2026/04/09 Thu
+12:28	ボブ	電話できる？
+12:29	ボブ	草
+12:29	ボブ	ラーメンにしよう
+12:30	Alice Sato	いいね〜
+12:35	ボブ	ありがとう
+12:35	Alice Sato	[Photo]
+12:47	Alice Sato	わかる
+12:52	ボブ	おやすみ
+12:53	Alice Sato	おつかれさま
+12:54	ボブ	電話できる？
+12:54	Alice Sato	わかる
+12:54	ボブ	[Sticker]
+12:55	Alice Sato	写真送るね
+
+2026/04/10 Fri
+21:37	Alice Sato	写真送るね
+21:39	ボブ	まじか
+21:44	ボブ	それなw
+21:45	Alice Sato	そうなんだ
+21:50	ボブ	まじか
+22:02	Alice Sato	天気いいね
+22:07	Alice Sato	天気いいね
+22:09	ボブ	いま電車
+22:21	ボブ	[Sticker]
+
+2026/04/11 Sat
+08:01	ボブ	今起きた
+08:03	ボブ	[Sticker]
+08:05	Alice Sato	そうなんだ
+08:06	ボブ	週末キャンプ行こう
+08:06	ボブ	了解
+
+2026/04/12 Sun
+12:14	ボブ	今起きた
+12:19	Alice Sato	明日ひま？
+12:24	Alice Sato	おやすみ〜
+12:25	ボブ	草
+12:25	ボブ	[Sticker]
+12:26	Alice Sato	それな
+12:31	Alice Sato	楽しみ！
+12:32	ボブ	それはおもろいw
+12:34	ボブ	了解
+12:34	ボブ	了解
+12:35	ボブ	今起きた
+12:35	Alice Sato	[Sticker]
+12:40	ボブ	駅前でいい？
+16:20	ボブ	テストやばい
+16:20	Alice Sato	[Sticker]
+16:21	ボブ	まじか
+16:22	Alice Sato	ありがとう！
+16:34	ボブ	今起きた
+16:34	Alice Sato	わかる
+16:34	ボブ	いま電車
+16:35	Alice Sato	明日ひま？
+16:35	ボブ	草
+16:35	ボブ	ありがとう
+16:36	Alice Sato	笑
+16:37	Alice Sato	写真送るね
+16:39	ボブ	了解
+16:44	Alice Sato	おやすみ〜
+22:09	Alice Sato	ありがとう！
+22:10	ボブ	ラーメンにしよう
+22:15	Alice Sato	そうなんだ
+22:16	ボブ	[Photo]
+22:16	ボブ	テストやばい
+
+2026/04/13 Mon
+12:15	ボブ	なるほど
+12:16	Alice Sato	ちょっと遅れる！
+12:21	Alice Sato	やばい
+12:23	ボブ	ありがとう
+12:23	Alice Sato	おはよう
+
+2026/04/15 Wed
+18:15	ボブ	草
+18:27	ボブ	まじか
+18:32	Alice Sato	そうなんだ
+18:33	Alice Sato	[Sticker]
+18:45	ボブ	おやすみ
+18:45	ボブ	おつかれ
+18:47	Alice Sato	それな
+18:52	Alice Sato	レポート終わらん…
+19:04	ボブ	[Sticker]
+19:04		ボブ unsent a message.
+22:36	ボブ	おはよ
+22:36	ボブ	[Photo]
+22:38	Alice Sato	おつかれさま
+22:40	ボブ	[Sticker]
+22:41	Alice Sato	ありがとう！
+22:41	Alice Sato	映画どうだった？
+22:41	ボブ	ラーメンにしよう
+22:41	Alice Sato	ほんとに？
+22:41	Alice Sato	ほんとに？
+22:42	ボブ	いいよ
+22:47	ボブ	ちょっと待って
+22:47	Alice Sato	天気いいね
+22:48	ボブ	草
+
+2026/04/17 Fri
+21:39	ボブ	ちょっと待って
+21:41	Alice Sato	やばい
+21:41	ボブ	まじか
+21:46	Alice Sato	[Sticker]
+21:51	ボブ	それはおもろいw
+21:51	ボブ	明日なら行ける
+21:53		ボブ unsent a message.
+
+2026/04/18 Sat
+18:28	Alice Sato	[Sticker]
+18:29	ボブ	それはおもろいw
+18:41	Alice Sato	笑
+18:42	Alice Sato	駅前のカフェ行かない？
+
+2026/04/19 Sun
+18:47	ボブ	ラーメンにしよう
+18:47	ボブ	おやすみ
+18:47	Alice Sato	カレー食べたい
+
+2026/04/20 Mon
+18:17	Alice Sato	[Sticker]
+18:18	ボブ	おやすみ
+18:19	ボブ	おはよ
+
+2026/04/22 Wed
+12:38	ボブ	それなw
+12:38	Alice Sato	了解です
+12:38	ボブ	テストやばい
+12:39	Alice Sato	駅前のカフェ行かない？
+12:39	Alice Sato	カレー食べたい
+12:40	ボブ	おやすみ
+12:40	Alice Sato	おやすみ〜
+12:40	Alice Sato	ほんとに？
+
+2026/04/23 Thu
+18:47	ボブ	おつかれ
+18:48	Alice Sato	おはよう
+18:48	ボブ	おつかれ
+18:48	Alice Sato	それな
+18:48	Alice Sato	[Photo]
+19:00	ボブ	おやすみ
+22:12	Alice Sato	笑
+22:12	ボブ	ありがとう
+22:17	ボブ	それはおもろいw
+22:22	ボブ	カレーいいね
+22:23	Alice Sato	ちょっと遅れる！
+22:23	Alice Sato	写真送るね
+22:35	ボブ	☎ Call time 3:05
+
+2026/04/24 Fri
+08:13	ボブ	[Sticker]
+08:14	Alice Sato	いいね〜
+08:14	Alice Sato	やばい
+08:15	Alice Sato	ほんとに？
+08:15	ボブ	いま電車
+08:16	ボブ	駅前でいい？
+08:17	ボブ	カレーいいね
+08:18	ボブ	おはよ
+08:18	Alice Sato	笑
+08:18	ボブ	"週末の予定
+カレー作る
+そのあと映画"
+
+2026/04/25 Sat
+18:47	Alice Sato	了解です
+18:47	ボブ	[Photo]
+18:59	Alice Sato	ちょっと遅れる！
+19:11	ボブ	テストやばい
+19:13	Alice Sato	やばい
+22:59	Alice Sato	おやすみ〜
+23:11	Alice Sato	おはよう
+23:12	ボブ	明日なら行ける
+23:12	Alice Sato	ちょっと遅れる！
+23:14	ボブ	ちょっと待って
+23:26	Alice Sato	やばい
+23:28	ボブ	草
+23:29	ボブ	おはよ
+23:30	Alice Sato	レポート終わらん…
+23:30	ボブ	テストやばい
+23:31	Alice Sato	レポート終わらん…
+23:43	Alice Sato	それな
+23:44	ボブ	了解
+23:46		You unsent a message.
+
+2026/04/27 Mon
+08:03	Alice Sato	[Sticker]
+08:05	ボブ	それはおもろいw
+08:06	Alice Sato	了解です
+08:11	Alice Sato	カレー食べたい
+08:13	Alice Sato	了解です
+08:15	ボブ	おやすみ
+08:17	Alice Sato	そうなんだ
+08:18	ボブ	おつかれ
+08:18	Alice Sato	やばい
+12:02	Alice Sato	明日ひま？
+12:03	Alice Sato	レポート終わらん…
+12:05	ボブ	それはおもろいw
+12:07	Alice Sato	やばい
+12:08	Alice Sato	笑
+12:09	ボブ	了解
+12:09	Alice Sato	明日ひま？
+17:40	ボブ	いいよ
+17:41	Alice Sato	駅前のカフェ行かない？
+17:42	ボブ	まじか
+17:44	Alice Sato	今日の授業おもしろかった！
+17:46	ボブ	それはおもろいw
+17:48	Alice Sato	おはよう
+17:48	ボブ	それなw
+17:48	ボブ	おつかれ
+17:49	ボブ	[Photo]
+18:01	ボブ	ありがとう
+18:02	Alice Sato	明日ひま？
+18:04	Alice Sato	おやすみ〜
+18:05	Alice Sato	天気いいね
+18:05		You unsent a message.
+
+2026/04/28 Tue
+12:15	Alice Sato	[Sticker]
+12:15	ボブ	カレーいいね
+12:20	Alice Sato	写真送るね
+
+2026/04/29 Wed
+21:45	ボブ	おやすみ
+21:50	Alice Sato	映画どうだった？
+21:51	Alice Sato	明日ひま？
+
+2026/04/30 Thu
+18:40	ボブ	週末キャンプ行こう
+18:41	ボブ	カレーいいね
+18:43	Alice Sato	[Sticker]
+18:43	ボブ	カレーいいね
+18:48	ボブ	カレーいいね
+18:49	ボブ	今起きた
+18:54	ボブ	ちょっと待って
+18:56	ボブ	週末キャンプ行こう
+19:08	ボブ	[Sticker]
+19:08	ボブ	草
+19:09	ボブ	了解
+19:09	Alice Sato	今日の授業おもしろかった！
+19:11	ボブ	駅前でいい？
+19:16	Alice Sato	☎ Call time 12:34
+
+2026/05/01 Fri
+08:47	ボブ	電話できる？
+08:47	ボブ	今起きた
+08:47	Alice Sato	明日ひま？
+08:59	ボブ	ラーメンにしよう
+
+2026/05/02 Sat
+12:18	ボブ	駅前でいい？
+12:19	Alice Sato	[Sticker]
+12:20	Alice Sato	おやすみ〜
+12:32	ボブ	うん
+12:32	ボブ	それはおもろいw
+12:37	Alice Sato	[Sticker]
+12:42	ボブ	了解
+12:43	Alice Sato	今日の授業おもしろかった！
+15:45	ボブ	[Photo]
+15:57	ボブ	テストやばい
+16:09	Alice Sato	おはよう
+16:10	Alice Sato	楽しみ！
+16:10	ボブ	[Photo]
+16:10	ボブ	電話できる？
+16:15	ボブ	それはおもろいw
+16:16	Alice Sato	カレー食べたい
+16:21	Alice Sato	☎ Call time 3:05
+
+2026/05/03 Sun
+21:40	Alice Sato	楽しみ！
+21:45	Alice Sato	[Sticker]
+21:47	ボブ	おやすみ
+21:52	ボブ	おやすみ
+22:04	Alice Sato	映画どうだった？
+22:05	ボブ	おつかれ
+22:06	Alice Sato	楽しみ！
+22:08	Alice Sato	いいね〜
+22:13	Alice Sato	天気いいね
+22:13	ボブ	カレーいいね
+
+2026/05/04 Mon
+21:09	ボブ	カレーいいね
+21:09	Alice Sato	やばい
+21:09	ボブ	おはよ
+21:11	ボブ	草
+21:11	Alice Sato	やばい
+21:11	ボブ	おはよ
+21:13	ボブ	おはよ
+
+2026/05/05 Tue
+12:43	Alice Sato	ありがとう！
+12:48	ボブ	[Photo]
+13:00	Alice Sato	楽しみ！
+13:01	Alice Sato	そうなんだ
+13:03	ボブ	週末キャンプ行こう
+13:15	ボブ	ラーメンにしよう
+13:15	Alice Sato	そうなんだ
+13:15	Alice Sato	[Sticker]
+13:15	ボブ	カレーいいね
+13:15	Alice Sato	レポート終わらん…
+13:20	ボブ	うん
+13:32	ボブ	なるほど
+13:33	Alice Sato	ほんとに？
+
+2026/05/06 Wed
+08:16	ボブ	[Sticker]
+08:17	Alice Sato	ほんとに？
+08:18	ボブ	[Photo]
+08:19	Alice Sato	天気いいね
+08:31	Alice Sato	レポート終わらん…
+08:31	ボブ	了解
+08:36	ボブ	ラーメンにしよう
+08:36	Alice Sato	いいね〜
+08:41	ボブ	おはよ
+15:01	ボブ	おつかれ
+15:02	Alice Sato	駅前のカフェ行かない？
+15:03	Alice Sato	[Sticker]
+15:04	Alice Sato	写真送るね
+15:05	ボブ	それなw
+15:10	ボブ	まじか
+15:22	ボブ	了解
+15:23	ボブ	まじか
+15:24	Alice Sato	今日の授業おもしろかった！
+15:24	Alice Sato	写真送るね
+15:26	Alice Sato	☎ Call time 12:34
+
+2026/05/07 Thu
+12:13	Alice Sato	楽しみ！
+12:25	Alice Sato	[Photo]
+12:27	Alice Sato	わかる
+12:32	ボブ	了解
+12:33	ボブ	それはおもろいw
+12:34	Alice Sato	いいね〜
+12:36	ボブ	[Sticker]
+12:36	Alice Sato	映画どうだった？
+12:38	ボブ	うん
+12:39	Alice Sato	おはよう
+12:40	ボブ	駅前でいい？
+12:45	ボブ	☎ Missed call
+15:50	Alice Sato	ありがとう！
+15:50	Alice Sato	そうなんだ
+15:50	Alice Sato	[Sticker]
+15:55	Alice Sato	"週末の予定
+カレー作る
+そのあと映画"
+16:00	ボブ	テストやばい
+16:02	ボブ	カレーいいね
+16:03	Alice Sato	ねむい
+16:04	ボブ	テストやばい
+16:06	Alice Sato	天気いいね
+16:06	ボブ	それはおもろいw
+16:07	Alice Sato	いいね〜
+16:12	ボブ	[Photo]
+
+2026/05/08 Fri
+21:19	Alice Sato	そうなんだ
+21:24	Alice Sato	[Sticker]
+21:26	ボブ	それなw
+
+2026/05/09 Sat
+08:42	Alice Sato	[Photo]
+08:42	ボブ	それはおもろいw
+08:47	ボブ	[Sticker]
+08:47	ボブ	電話できる？
+08:59	ボブ	おはよ
+08:59	Alice Sato	写真送るね
+08:59	ボブ	週末キャンプ行こう
+08:59	Alice Sato	駅前のカフェ行かない？
+09:00	ボブ	うん
+09:02	ボブ	ちょっと待って
+12:24	ボブ	まじか
+12:25	ボブ	[Sticker]
+12:25	ボブ	了解
+12:25	Alice Sato	"週末の予定
+カレー作る
+そのあと映画"
+12:30	ボブ	おやすみ
+12:30	ボブ	駅前でいい？
+12:35	ボブ	まじか
+12:35	ボブ	電話できる？
+12:36	ボブ	ありがとう
+12:36	ボブ	うん
+12:41	Alice Sato	おやすみ〜
+12:42	ボブ	それなw
+12:54	Alice Sato	おやすみ〜
+17:55	Alice Sato	それな
+18:00	ボブ	おはよ
+18:12	Alice Sato	おつかれさま
+18:14	Alice Sato	おつかれさま
+18:19	ボブ	それなw
+18:21	Alice Sato	今日の授業おもしろかった！
+18:23	Alice Sato	おはよう
+18:23	ボブ	ちょっと待って
+18:35	Alice Sato	レポート終わらん…
+18:35	ボブ	ありがとう
+18:37	Alice Sato	明日ひま？
+18:37	ボブ	いま電車
+18:49	Alice Sato	ねむい
+
+2026/05/10 Sun
+21:12	ボブ	ちょっと待って
+21:17	Alice Sato	おつかれさま
+21:17	ボブ	おやすみ
+21:19	Alice Sato	カレー食べたい
+21:21	ボブ	ありがとう
+21:23	ボブ	週末キャンプ行こう
+
+2026/05/11 Mon
+18:36	ボブ	まじか
+18:37	Alice Sato	それな
+18:38	ボブ	まじか
+18:38	Alice Sato	天気いいね
+18:38	Alice Sato	[Sticker]
+18:50	Alice Sato	おはよう
+18:51	ボブ	ありがとう
+18:52	Alice Sato	おやすみ〜
+22:39	Alice Sato	[Sticker]
+22:40	ボブ	おやすみ
+22:52	Alice Sato	カレー食べたい
+22:57	Alice Sato	それな
+22:57	Alice Sato	おはよう
+22:57	ボブ	ちょっと待って
+22:57	Alice Sato	了解です
+22:57	ボブ	おつかれ
+22:58	Alice Sato	明日ひま？
+22:58		ボブ unsent a message.
+
+2026/05/12 Tue
+18:48	ボブ	おやすみ
+18:48	ボブ	駅前でいい？
+18:48	Alice Sato	やばい
+18:48	ボブ	ちょっと待って
+18:49	ボブ	カレーいいね
+18:49	ボブ	おつかれ
+
+2026/05/16 Sat
+08:40	ボブ	おつかれ
+08:45	Alice Sato	ありがとう！
+08:45	ボブ	おやすみ
+08:45	Alice Sato	いいね〜
+08:46	ボブ	うん
+08:58	Alice Sato	了解です
+08:58	ボブ	テストやばい
+09:00	Alice Sato	[Sticker]
+09:05	Alice Sato	ねむい
+09:06	ボブ	[Photo]
+
+2026/05/18 Mon
+18:26	ボブ	ラーメンにしよう
+18:38	Alice Sato	天気いいね
+18:38	ボブ	週末キャンプ行こう
+
+2026/05/19 Tue
+12:08	Alice Sato	ちょっと遅れる！
+12:20	Alice Sato	[Photo]
+12:21	Alice Sato	了解です
+12:23	ボブ	ラーメンにしよう
+12:25	ボブ	うん
+12:30	Alice Sato	明日ひま？
+12:31	ボブ	ラーメンにしよう
+12:32	ボブ	[Photo]
+12:44	Alice Sato	ほんとに？
+12:44	ボブ	駅前でいい？
+12:49	Alice Sato	おやすみ〜
+
+2026/05/20 Wed
+18:45	ボブ	いいよ
+18:45	Alice Sato	そうなんだ
+18:45	ボブ	電話できる？
+18:45	Alice Sato	映画どうだった？
+18:45	Alice Sato	[Photo]
+18:57	ボブ	うん
+19:02	Alice Sato	おつかれさま
+19:04	ボブ	おやすみ
+
+2026/05/21 Thu
+08:17	ボブ	ありがとう
+08:17	Alice Sato	いいね〜
+08:17	ボブ	まじか
+08:18	ボブ	明日なら行ける
+08:18	ボブ	今起きた
+08:20	ボブ	週末キャンプ行こう
+08:20	Alice Sato	ありがとう！
+08:32	ボブ	おはよ
+08:34	ボブ	なるほど
+08:46	ボブ	なるほど
+
+2026/05/22 Fri
+08:23	Alice Sato	[Sticker]
+08:25	ボブ	おつかれ
+08:26	Alice Sato	レポート終わらん…
+08:38	Alice Sato	明日ひま？
+08:43	ボブ	ちょっと待って
+08:48	ボブ	いいよ
+08:49	ボブ	"週末の予定
+カレー作る
+そのあと映画"
+08:49	Alice Sato	わかる
+08:50	ボブ	それはおもろいw
+08:52	Alice Sato	カレー食べたい
+08:54	ボブ	おやすみ
+
+2026/05/23 Sat
+12:47	ボブ	それなw
+12:47	ボブ	カレーいいね
+12:48	Alice Sato	ねむい
+12:49	ボブ	草
+12:50	Alice Sato	天気いいね
+12:52	ボブ	駅前でいい？
+12:52	Alice Sato	ありがとう！
+12:53	ボブ	カレーいいね
+13:05	Alice Sato	[Sticker]
+13:07	ボブ	おやすみ
+13:09	ボブ	おやすみ
+13:21	Alice Sato	[Photo]
+13:26	ボブ	まじか
+13:31	Alice Sato	ほんとに？
+
+2026/05/24 Sun
+21:17	Alice Sato	それな
+21:29	ボブ	それはおもろいw
+21:31	Alice Sato	おつかれさま
+21:33	Alice Sato	[Photo]
+21:38	Alice Sato	笑
+21:39	ボブ	それなw
+21:40	Alice Sato	[Sticker]
+21:41	Alice Sato	わかる
+21:42	ボブ	おはよ
+21:44	Alice Sato	ありがとう！
+21:56	ボブ	おつかれ
+21:56	ボブ	うん
+21:57	Alice Sato	そうなんだ
+21:59	ボブ	電話できる？
+
+2026/05/25 Mon
+21:22	ボブ	うん
+21:24	ボブ	おはよ
+21:25	Alice Sato	おはよう
+21:25	ボブ	テストやばい
+21:37	Alice Sato	おはよう
+21:39	ボブ	了解
+21:40	Alice Sato	カレー食べたい
+21:42	Alice Sato	写真送るね
+21:47	Alice Sato	天気いいね
+21:48	Alice Sato	天気いいね
+21:50	ボブ	カレーいいね
+21:50	Alice Sato	おやすみ〜
+
+2026/05/26 Tue
+08:50	Alice Sato	やばい
+08:52	Alice Sato	[Sticker]
+08:52	ボブ	電話できる？
+09:04	Alice Sato	ねむい
+09:04	ボブ	おはよ
+09:04	ボブ	週末キャンプ行こう
+09:04	Alice Sato	[Sticker]
+
+2026/05/28 Thu
+18:09	ボブ	いいよ
+18:09	Alice Sato	おはよう
+18:09	ボブ	今起きた
+18:09	Alice Sato	おはよう
+18:09	Alice Sato	おやすみ〜
+18:09	ボブ	[Sticker]
+18:21		ボブ unsent a message.
+22:38	ボブ	テストやばい
+22:38	ボブ	今起きた
+22:40	ボブ	草
+22:45	Alice Sato	映画どうだった？
+22:45	ボブ	明日なら行ける
+22:46	Alice Sato	笑
+22:48	ボブ	なるほど
+22:48	Alice Sato	駅前のカフェ行かない？
+22:49	Alice Sato	やばい
+
+2026/05/29 Fri
+18:09	Alice Sato	[Photo]
+18:21	ボブ	電話できる？
+18:33	Alice Sato	映画どうだった？
+18:34	ボブ	今起きた
+18:36	Alice Sato	そうなんだ
+18:36	ボブ	ちょっと待って
+18:41	Alice Sato	おやすみ〜
+18:43	Alice Sato	ねむい
+18:45	ボブ	まじか
+18:45	ボブ	了解
+18:46	Alice Sato	やばい
+18:51	ボブ	草
+18:56	Alice Sato	[Photo]
+19:08	ボブ	カレーいいね
+19:08	ボブ	☎ Missed call
+
+2026/05/30 Sat
+18:05	Alice Sato	やばい
+18:06	ボブ	おやすみ
+18:11	ボブ	まじか
+18:11	ボブ	[Sticker]
+18:16	ボブ	おはよ
+18:21	Alice Sato	映画どうだった？
+18:22	Alice Sato	写真送るね
+18:23	Alice Sato	☎ No answer
+
+2026/05/31 Sun
+12:27	Alice Sato	明日ひま？
+12:32	ボブ	明日なら行ける
+12:32	Alice Sato	楽しみ！
+12:33	ボブ	いま電車
+12:33	Alice Sato	[Photo]
+12:38	Alice Sato	明日ひま？
+12:40	Alice Sato	明日ひま？
+12:45	ボブ	☎ Call time 12:34
+
+2026/06/01 Mon
+08:26	ボブ	それなw
+08:27	ボブ	駅前でいい？
+08:28	ボブ	なるほど
+08:33	ボブ	ラーメンにしよう
+08:35	ボブ	[Sticker]
+08:36	ボブ	まじか
+08:36	Alice Sato	[Sticker]
+08:48	Alice Sato	了解です
+09:00	ボブ	電話できる？
+09:00	Alice Sato	笑
+09:00	ボブ	まじか
+09:05	Alice Sato	そうなんだ
+09:05	ボブ	[Sticker]
+09:05	ボブ	駅前でいい？
+14:29	ボブ	それはおもろいw
+14:41	Alice Sato	ほんとに？
+14:43	Alice Sato	やばい
+14:43	Alice Sato	今日の授業おもしろかった！
+14:43	ボブ	[Sticker]
+14:44	ボブ	草
+20:09	ボブ	了解
+20:10	Alice Sato	そうなんだ
+20:15	ボブ	いま電車
+20:20	Alice Sato	駅前のカフェ行かない？
+20:32	ボブ	うん
+20:32	Alice Sato	写真送るね
+20:37	Alice Sato	おつかれさま
+20:37	Alice Sato	今日の授業おもしろかった！
+
+2026/06/03 Wed
+12:06	ボブ	ラーメンにしよう
+12:07	ボブ	まじか
+12:08	Alice Sato	おつかれさま
+12:08	ボブ	[Photo]
+12:20	ボブ	今起きた
+12:20	ボブ	テストやばい
+12:21	ボブ	ラーメンにしよう
+18:09	Alice Sato	レポート終わらん…
+18:09	ボブ	うん
+18:11	Alice Sato	天気いいね
+18:12	ボブ	[Sticker]
+18:17	Alice Sato	ありがとう！
+18:17	ボブ	明日なら行ける
+18:17	ボブ	うん
+18:19	Alice Sato	おはよう
+18:19	ボブ	週末キャンプ行こう
+
+2026/06/05 Fri
+08:46	ボブ	おはよ
+08:47	ボブ	まじか
+08:48	Alice Sato	写真送るね
+08:48	ボブ	おやすみ
+08:48	ボブ	駅前でいい？
+08:49	Alice Sato	映画どうだった？
+08:50	ボブ	おつかれ
+08:50	Alice Sato	それな
+14:17	ボブ	おつかれ
+14:17	Alice Sato	楽しみ！
+14:19	ボブ	いま電車
+14:20	Alice Sato	レポート終わらん…
+14:22	ボブ	それはおもろいw
+14:27	ボブ	おやすみ
+14:28	ボブ	カレーいいね
+14:40	Alice Sato	[Photo]
+14:42	ボブ	[Sticker]
+14:43	Alice Sato	[Sticker]
+14:43	Alice Sato	それな
+14:44	Alice Sato	カレー食べたい
+14:56	Alice Sato	それな
+21:43	Alice Sato	それな
+21:45	ボブ	駅前でいい？
+21:45	ボブ	駅前でいい？
+21:47	Alice Sato	おやすみ〜
+21:52	ボブ	駅前でいい？
+21:53	Alice Sato	[Sticker]
+21:54	Alice Sato	[Photo]
+21:54	ボブ	[Sticker]
+
+2026/06/06 Sat
+12:37	ボブ	うん
+12:37	Alice Sato	そうなんだ
+12:49	Alice Sato	カレー食べたい
+13:01	ボブ	それなw
+13:02	Alice Sato	楽しみ！
+13:03	Alice Sato	おやすみ〜
+13:04	ボブ	カレーいいね
+13:04	Alice Sato	明日ひま？
+13:16	ボブ	おやすみ
+13:17	Alice Sato	笑
+13:18	ボブ	なるほど
+16:29	Alice Sato	いいね〜
+16:30	ボブ	[Sticker]
+16:31	ボブ	週末キャンプ行こう
+16:31	Alice Sato	明日ひま？
+16:43	Alice Sato	[Photo]
+16:44	ボブ	ラーメンにしよう
+16:56	Alice Sato	映画どうだった？
+16:56	Alice Sato	わかる
+16:57	Alice Sato	天気いいね
+16:57	Alice Sato	ねむい
+16:58	Alice Sato	[Sticker]
+16:59	ボブ	テストやばい
+16:59	Alice Sato	笑
+16:59	ボブ	☎ Call time 3:05
+
+2026/06/09 Tue
+12:19	ボブ	電話できる？
+12:20	ボブ	[Sticker]
+12:20	Alice Sato	わかる
+12:21	ボブ	おはよ
+12:21	ボブ	なるほど
+12:22	ボブ	電話できる？
+12:22	Alice Sato	映画どうだった？
+12:22	ボブ	☎ Call time 12:34
+16:34	Alice Sato	明日ひま？
+16:36	Alice Sato	[Sticker]
+16:48	ボブ	なるほど
+16:48	ボブ	電話できる？
+16:48	ボブ	うん
+16:49	Alice Sato	今日の授業おもしろかった！
+16:50	Alice Sato	ありがとう！
+17:02	ボブ	いいよ
+17:04	Alice Sato	そうなんだ
+17:05	Alice Sato	レポート終わらん…
+17:05	Alice Sato	おはよう
+17:06	ボブ	☎ Call time 12:34
+20:45	Alice Sato	カレー食べたい
+20:46	ボブ	電話できる？
+20:58	ボブ	ちょっと待って
+21:00	ボブ	それなw
+21:05	Alice Sato	明日ひま？
+21:06	Alice Sato	ねむい
+
+2026/06/11 Thu
+08:35	ボブ	ラーメンにしよう
+08:47	Alice Sato	今日の授業おもしろかった！
+08:47	Alice Sato	[Sticker]
+08:49	ボブ	ありがとう
+14:58	Alice Sato	楽しみ！
+15:10	ボブ	ラーメンにしよう
+15:22	ボブ	カレーいいね
+15:22	Alice Sato	[Photo]
+15:22	Alice Sato	やばい
+15:23	ボブ	☎ Call time 3:05
+
+2026/06/13 Sat
+12:01	ボブ	おつかれ
+12:01	Alice Sato	駅前のカフェ行かない？
+12:02	Alice Sato	そうなんだ
+18:20	Alice Sato	わかる
+18:20	ボブ	おつかれ
+18:25	Alice Sato	レポート終わらん…
+18:25	ボブ	カレーいいね
+18:30	ボブ	おやすみ
+18:42	Alice Sato	わかる
+18:54	Alice Sato	[Photo]
+18:54	ボブ	☎ Call time 12:34
+
+2026/06/14 Sun
+12:29	Alice Sato	写真送るね
+12:34	Alice Sato	ありがとう！
+12:34	Alice Sato	ちょっと遅れる！
+12:39	Alice Sato	[Sticker]
+12:41	ボブ	おはよ
+12:46	ボブ	[Sticker]
+12:47	ボブ	[Sticker]
+12:48	Alice Sato	天気いいね
+12:48	ボブ	電話できる？
+18:08	ボブ	了解
+18:08	Alice Sato	映画どうだった？
+18:09	Alice Sato	今日の授業おもしろかった！
+18:09	ボブ	カレーいいね
+18:10	Alice Sato	笑
+18:11	ボブ	ラーメンにしよう
+18:12	Alice Sato	楽しみ！
+18:24	ボブ	ありがとう
+22:03	ボブ	まじか
+22:08	ボブ	[Sticker]
+22:09	ボブ	今起きた
+22:21	ボブ	それはおもろいw
+22:23	Alice Sato	楽しみ！
+22:28	ボブ	ちょっと待って
+22:30	ボブ	おやすみ
+22:30	ボブ	ラーメンにしよう
+22:32	ボブ	電話できる？
+
+2026/06/15 Mon
+08:25	ボブ	[Sticker]
+08:30	ボブ	それなw
+08:31	ボブ	テストやばい
+08:32	ボブ	テストやばい
+08:32	Alice Sato	[Sticker]
+08:33	Alice Sato	天気いいね
+08:34	ボブ	明日なら行ける
+15:10	Alice Sato	笑
+15:22	Alice Sato	駅前のカフェ行かない？
+15:23	ボブ	駅前でいい？
+15:35	Alice Sato	わかる
+15:35	ボブ	草
+15:40	ボブ	[Photo]
+15:45	ボブ	週末キャンプ行こう
+15:50	Alice Sato	そうなんだ
+15:50	ボブ	週末キャンプ行こう
+15:51	Alice Sato	ねむい
+15:53	ボブ	いま電車
+15:58	Alice Sato	ありがとう！
+15:59	ボブ	了解
+20:48	ボブ	おやすみ
+20:48	Alice Sato	わかる
+20:49	Alice Sato	おつかれさま
+20:50	ボブ	まじか
+20:50	ボブ	いま電車
+20:55	Alice Sato	カレー食べたい
+20:56	ボブ	週末キャンプ行こう
+21:01		ボブ unsent a message.
+
+2026/06/16 Tue
+21:26	Alice Sato	そうなんだ
+21:38	ボブ	ちょっと待って
+21:38	Alice Sato	明日ひま？
+21:39	Alice Sato	やばい
+21:39	Alice Sato	[Photo]
+
+2026/06/18 Thu
+21:03	ボブ	いいよ
+21:08	Alice Sato	おはよう
+21:09	ボブ	ラーメンにしよう
+21:10	Alice Sato	今日の授業おもしろかった！
+21:12	ボブ	ありがとう
+21:13	Alice Sato	わかる
+
+2026/06/19 Fri
+21:27	ボブ	いいよ
+21:32	Alice Sato	レポート終わらん…
+21:37	Alice Sato	笑
+21:38	Alice Sato	楽しみ！
+21:38	ボブ	うん
+21:39	Alice Sato	ありがとう！
+21:39	ボブ	草
+
+2026/06/20 Sat
+21:13	Alice Sato	写真送るね
+21:13	ボブ	了解
+21:14	ボブ	電話できる？
+
+2026/06/21 Sun
+12:34	Alice Sato	レポート終わらん…
+12:46	ボブ	[Photo]
+12:46	Alice Sato	おつかれさま
+12:47	Alice Sato	いいね〜
+12:52	Alice Sato	了解です
+
+2026/06/22 Mon
+12:19	Alice Sato	ほんとに？
+12:20	Alice Sato	ありがとう！
+12:25	ボブ	ラーメンにしよう
+12:25	Alice Sato	いいね〜
+12:26	Alice Sato	やばい
+12:38	ボブ	ちょっと待って
+12:43	ボブ	週末キャンプ行こう
+12:44	Alice Sato	そうなんだ
+17:01	Alice Sato	そうなんだ
+17:13	ボブ	おつかれ
+17:14	Alice Sato	[Sticker]
+17:14	ボブ	まじか
+17:14	ボブ	駅前でいい？
+17:14	Alice Sato	笑
+17:26	ボブ	了解
+17:27	ボブ	[Photo]
+17:39	Alice Sato	やばい
+17:39	ボブ	[Sticker]
+17:40	Alice Sato	いいね〜
+17:52	ボブ	駅前でいい？
+
+2026/06/23 Tue
+21:19	Alice Sato	[Photo]
+21:19	ボブ	電話できる？
+21:20	Alice Sato	了解です
+21:20	ボブ	駅前でいい？
+21:21	ボブ	カレーいいね
+21:21	ボブ	電話できる？
+21:21	Alice Sato	[Sticker]
+
+2026/06/24 Wed
+12:05	ボブ	おはよ
+12:07	Alice Sato	[Photo]
+12:07	ボブ	[Photo]
+12:07	Alice Sato	天気いいね
+12:07	Alice Sato	カレー食べたい
+12:07	Alice Sato	☎ Call time 3:05
+
+2026/06/26 Fri
+12:00	ボブ	[Sticker]
+12:00	ボブ	ちょっと待って
+12:12	Alice Sato	いいね〜
+12:12	ボブ	了解
+12:24	ボブ	いいよ
+12:36	Alice Sato	カレー食べたい
+12:41	Alice Sato	[Sticker]
+12:41	Alice Sato	駅前のカフェ行かない？
+12:46	ボブ	いま電車
+16:21	ボブ	おやすみ
+16:33	ボブ	明日なら行ける
+16:45	Alice Sato	天気いいね
+16:47	ボブ	ラーメンにしよう
+16:59	Alice Sato	おつかれさま
+17:11	Alice Sato	ちょっと遅れる！
+17:13	ボブ	テストやばい
+
+2026/06/29 Mon
+18:24	Alice Sato	ありがとう！
+18:36	Alice Sato	わかる
+18:37	ボブ	それはおもろいw
+18:38	ボブ	それなw
+
+2026/06/30 Tue
+21:39	ボブ	[Photo]
+21:44	Alice Sato	駅前のカフェ行かない？
+21:56	Alice Sato	ちょっと遅れる！
+21:56	Alice Sato	了解です
+21:57	ボブ	駅前でいい？
+21:58	Alice Sato	おやすみ〜
+21:59	Alice Sato	ありがとう！
+

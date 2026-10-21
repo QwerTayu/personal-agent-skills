@@ -1,0 +1,33 @@
+{
+ "slug": "alice-bob",
+ "mode": "pair",
+ "title": "アリスとボブ",
+ "me": "Alice Sato",
+ "members": {
+  "Alice Sato": "アリス",
+  "ボブ": "ボブ"
+ },
+ "sender_aliases": {
+  "ぼぶ（旧）": "ボブ"
+ },
+ "since": "2026-04-01",
+ "until": "2026-06-30",
+ "periods": [
+  ["p1", "4月", [4]],
+  ["p2", "5月", [5]],
+  ["p3", "6月", [6]]
+ ],
+ "gap_hours": 3,
+ "n_topics": 6,
+ "show_topics": false,
+ "compounds": ["駅前のカフェ"],
+ "aliases": {"Line": "LINE"},
+ "names": ["キャロル"],
+ "nicknames": {"佐藤さん": "アリス", "キャロルさん": "〇〇"},
+ "extra_stopwords": ["ちなみ"],
+ "expressions": {"それな": "それな"},
+ "greetings": {
+  "おはよう": "おは(?:よ|よう|ござ)",
+  "おやすみ": "おやす"
+ }
+}
