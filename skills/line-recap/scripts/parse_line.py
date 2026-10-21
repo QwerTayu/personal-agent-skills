@@ -83,12 +83,18 @@ def parse(path):
 
     rows, warnings = [], []
     day, quoted = None, False  # quoted: " で始まった複数行の本文の途中
-    for no, line in enumerate(lines[2:], start=3):
+    for i, line in enumerate(lines[2:], start=2):
+        no = i + 1
         mm = MSG_RE.match(line)
         if quoted:
-            if mm:
-                # 閉じの " がないまま次のメッセージが来た。ここで閉じる
+            # 空行のあとの日付の行で、次の行がメッセージなら、日付が変わったとみなす
+            # （"了解"って のように、" で始まって " で終わらない 1 行の本文がある）
+            new_day = (DATE_RE.match(line) and lines[i - 1] == ""
+                       and i + 1 < len(lines) and MSG_RE.match(lines[i + 1]))
+            if mm or new_day:
+                # 閉じの " がないまま次のメッセージか日付が来た。ここで閉じる
                 warnings.append(f"{no} 行目: 前の本文の閉じの \" がない")
+                rows[-1][4] = rows[-1][4].rstrip("\n")
                 quoted = False
             else:
                 rows[-1][4] += "\n" + line

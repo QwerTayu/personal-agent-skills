@@ -6,6 +6,7 @@
 import collections
 import re
 import sys
+import unicodedata
 from datetime import date
 
 import pandas as pd
@@ -18,14 +19,25 @@ SINCE = date.fromisoformat(CONFIG["since"]) if CONFIG.get("since") else None
 UNTIL = date.fromisoformat(CONFIG["until"]) if CONFIG.get("until") else None
 MODE = CONFIG.get("mode", "pair")
 
-# 口座・連絡先・住所などを含むメッセージは、だれのものでも使わない
+# 口座・連絡先・住所などを含むメッセージは、だれのものでも使わない。
+# 全角の数字やハイフンもあるので、sensitive() で正規化してから探す
 SENSITIVE_RE = re.compile(
-    r"口座|銀行|支店|名義|暗証|パスワード|住所|〒"
-    r"|(?<!\d)0\d{9,10}(?!\d)|(?<!\d)0\d{1,4}-\d{1,4}-\d{4}(?!\d)"  # 電話番号
+    r"口座|銀行|支店|名義|暗証|パスワード|住所|〒|振込|振り込み先|ゆうちょ|カード番号|マイナンバー|生年月日"
+    r"|(?<![\d+])0\d{9,10}(?!\d)|(?<![\d+])0\d{1,4}[- ]\d{1,4}[- ]\d{4}(?!\d)"  # 電話番号
+    r"|\+81[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{4}(?!\d)"  # 電話番号（国番号から）
     r"|(?<![\d-])\d{3}-\d{4}(?![\d-])"  # 郵便番号
+    r"|(?<!\d)\d{4}(?:[- ]?\d{4}){3}(?!\d)"  # カード番号
     r"|[\w.+-]+@[\w-]+\.[\w.-]+"  # メールアドレス
-    r"|[都道府県]\S{1,8}[市区町村]\S{0,12}\d+[-−‐丁]\d+"  # 番地まである住所
+    r"|[都道府県]\S{1,8}[市区町村]\S{0,12}\d+[-丁]\d+"  # 番地まである住所
+    r"|[市区町村]\S{0,12}?\d+-\d+-\d+"  # 都道府県のない住所（渋谷区神南1-2-3）
+    r"|(?:\d+|[一二三四五六七八九十]+)丁目\s*\d+|\d+番地|\d+番\d+号"  # 丁目・番地
 )
+# 数字のあいだの長音やダッシュ（090ー1234ー5678 など）
+_DASH_RE = re.compile(r"(?<=\d)[ー‐‑‒–—―−](?=\d)")
+
+
+def sensitive(text):
+    return bool(SENSITIVE_RE.search(_DASH_RE.sub("-", unicodedata.normalize("NFKC", text))))
 
 URL_RE = re.compile(r"https?://\S+")
 # LINE の絵文字は本文の中で (emoji) (good) のような括弧の英単語になる
@@ -99,7 +111,7 @@ def load():
             calls.append(dict(dt=it["dt"], who=who, status=it["status"], sec=it.get("sec")))
             continue
         text = it.get("text", "")
-        if it["kind"] == "text" and SENSITIVE_RE.search(text):
+        if it["kind"] == "text" and sensitive(text):
             dropped += 1
             continue
         msgs.append(dict(dt=it["dt"], seq=it["seq"], who=who, kind=it["kind"], text=text))

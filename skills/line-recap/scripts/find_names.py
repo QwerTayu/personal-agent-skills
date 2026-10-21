@@ -10,6 +10,7 @@ Usage: uv run <skill>/scripts/find_names.py <slug>
 1. Sudachi が人名と判定した語（トークにいない人や、メンバーの本名・あだ名）
 2. メンバーの表示名とその一部のうち、本文に出てくるもの（引用では自動で呼び名に置き換わる）
 3. data/<slug>/recap.json と out/<slug>/*.html に残っているもの
+4. 1 のうち、ページでの表示をまだユーザーに聞いていないもの（nicknames にないもの）
 を表示する。1 には普通の語（「そう」「はな」など）も混ざるので、目で見て選ぶ。
 """
 import collections
@@ -44,12 +45,19 @@ for f in [DATA / "recap.json", *sorted(OUT.glob("*.html"))]:
     if not f.exists():
         continue
     s = f.read_text()
-    left = {n: s.count(n) for n in nick if n in s}
-    shown = {p: s.count(p) for p in parts if p in s}
+    # 表示をそのままにすると答えた名前（{"太郎": "太郎"}）は、残っていてよい
+    left = {n: s.count(n) for n in nick if n in s and not (isinstance(nick, dict) and nick[n] == n)}
+    # 英字の候補は、HTML の JS（client など）の一部に当たらないよう、単語として探す。
+    # mask.py と同じく、大文字と小文字は区別しない
+    found = lambda n: (len(re.findall(r"(?<![A-Za-z])" + re.escape(n) + r"(?![A-Za-z])", s, flags=re.I))
+                       if n.isascii() else s.count(n))
+    shown = {p: found(p) for p in parts if found(p)}
     short = {n: s.count(n) for n in names if n not in nick and n in s}
-    # 英字の候補は、HTML の JS（client など）の一部に当たらないよう、単語として探す
-    found = lambda n: len(re.findall(r"(?<![A-Za-z])" + re.escape(n) + r"(?![A-Za-z])", s)) if n.isascii() else s.count(n)
     guess = {n: found(n) for n, _ in pn.most_common(60) if len(n) >= 2 and n not in names and n not in nick and found(n)}
     print(f"{f}:\n  表示名とその一部（出てはいけない）={shown}\n  nicknames（出てはいけない）={left}\n"
-          f"  names（短いので伏せていない。引用に出ていないか目で見る）={short}\n"
+          f"  names（nicknames にないので置き換えていない。引用に出ていないか目で見る）={short}\n"
           f"  1 の候補で出力にあるもの（names / nicknames に入れるか決める）={guess}")
+
+print("== 4. 表示をまだ聞いていない人名の候補（1 から、nicknames に書いたものとメンバーの名前を除いた。普通の語は目で外す）")
+asked = set(nick) | parts | set(CONFIG.get("members", {}).values()) | set(display)
+print([n for n, _ in pn.most_common(60) if n not in asked])
