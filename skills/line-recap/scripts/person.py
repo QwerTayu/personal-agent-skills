@@ -6,6 +6,7 @@ recap を作るプロジェクトのディレクトリ（talks/ と data/ があ
 """
 import os
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -17,8 +18,11 @@ TALKS = ROOT / "talks"
 def _slug():
     args = [a for a in sys.argv[1:] if not a.startswith("-")]
     if not args:
-        names = ", ".join(sorted(p.name for p in TALKS.iterdir() if p.is_dir())) if TALKS.exists() else "なし"
-        sys.exit(f"集計するトークを指定してください（{ROOT}/talks にあるのは: {names}）")
+        # ほかのトークがあることも漏らさないよう、talks/ の中身は一覧にしない
+        sys.exit("集計するトークの slug を指定してください")
+    # 「..」や絶対パスで、今回のトークの外（ほかのトークやプロジェクトの外）を読まないようにする
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", args[0]):
+        sys.exit("slug に使えるのは英数字と - _ だけです")
     return args[0]
 
 

@@ -34,6 +34,8 @@ txt の表示名は、`members` と `sender_aliases` に書いておけば、引
 
 手で書く文。数字はデータで確かめてから書く。`page_title`・`title`・`lede`・`what_heading`・`periods` と、`wrapped` の `page_title`・`intro_title` は必須。ほかは省くと、数字から見出しや文を作る。
 
+`build.py` は、それぞれのページが使う項目だけを HTML に埋め込む（読み物は `REPORT_KEYS`、スライドは `WRAPPED_KEYS`。`wrapped` の下は `SLIDE_KEYS`、`periods.<キー>` の下は `PERIOD_KEYS`、`wrapped.awards.<呼び名>` の下は `AWARD_KEYS`）。下の表にない項目（メモなど）は、どの階層に書いても HTML には入らない。テンプレートで story の項目を新しく使うときは、`build.py` のこれらも直す。
+
 ### 読み物（report.html）
 
 | 項目 | 出る場所 |
