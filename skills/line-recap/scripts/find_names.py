@@ -5,15 +5,15 @@
 # ///
 """人の名前を洗い出す。config.json の names / nicknames を決めるために使う。
 
-Usage: uv run <skill>/scripts/find_names.py <slug>
+Usage: uv run <skill>/scripts/find_names.py（作業場所で実行する）
 
 1. Sudachi が人名と判定した語（トークにいない人や、メンバーの本名・あだ名）
 2. メンバーの表示名とその一部のうち、本文に出てくるもの（引用では自動で呼び名に置き換わる）
-3. data/<slug>/recap.json と out/<slug>/*.html に残っているもの
+3. data/recap.json と out/*.html に残っているもの
 4. 1 のうち、ページでの表示をまだユーザーに聞いていないもの（nicknames にないもの）
-5. talks/<slug>/story.json に書いた人名のうち、members の呼び名と nicknames の表示にないもの
+5. story.json に書いた人名のうち、members の呼び名と nicknames の表示にないもの
 を表示する。1 には普通の語（「そう」「はな」など）も混ざるので、目で見て選ぶ。
-読むのは今回のトーク（talks/<slug>/・data/<slug>/・out/<slug>/）だけで、同じプロジェクトのほかのトークは読まない。
+読むのは作業場所（今回のトーク）の中だけで、ほかの作業場所は読まない。
 """
 import collections
 import json

@@ -1,4 +1,4 @@
-"""data/<slug>/recap.json と talks/<slug>/story.json をテンプレートに埋め込み、out/<slug>/ に単一 HTML を書く。"""
+"""data/recap.json と story.json をテンプレートに埋め込み、out/ に単一 HTML を書く。作業場所で引数なしで実行する。"""
 import json
 import sys
 
