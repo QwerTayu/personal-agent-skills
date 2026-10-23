@@ -1,30 +1,23 @@
-"""集計するトークの設定（talks/<slug>/config.json）を読む。
+"""集計するトークの設定（作業場所の config.json）を読む。
 
-recap を作るプロジェクトのディレクトリ（talks/ と data/ がある場所）で実行する。
-スクリプトの最初の引数が slug。例: uv run <skill>/scripts/analyze.py alice-bob
-プロジェクトの場所は環境変数 RECAP_ROOT でも指定できる。
+recap は 1 回ごとに作業場所（<親のディレクトリ>/<slug>/）を 1 つ作り、そこにトークを 1 つだけ置く。
+スクリプトは作業場所で引数なしで実行し、作業場所の中しか読まない。例: uv run <skill>/scripts/analyze.py
+作業場所は今の場所だけ。環境変数などでほかの場所を指すと、前の recap の作業場所を黙って読むことがあるため。
 """
-import os
 import json
 import sys
 from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parent.parent
-ROOT = Path(os.environ.get("RECAP_ROOT", Path.cwd())).resolve()
-TALKS = ROOT / "talks"
+ROOT = Path.cwd().resolve()
 
-
-def _slug():
-    args = [a for a in sys.argv[1:] if not a.startswith("-")]
-    if not args:
-        names = ", ".join(sorted(p.name for p in TALKS.iterdir() if p.is_dir())) if TALKS.exists() else "なし"
-        sys.exit(f"集計するトークを指定してください（{ROOT}/talks にあるのは: {names}）")
-    return args[0]
-
-
-SLUG = _slug()
-CONFIG = json.loads((TALKS / SLUG / "config.json").read_text())
-STORY_PATH = TALKS / SLUG / "story.json"
-DATA = ROOT / "data" / SLUG
+if [a for a in sys.argv[1:] if not a.startswith("-")]:
+    sys.exit("引数はいらない（作業場所で実行する。作業場所は 1 つのトーク専用）")
+if not (ROOT / "config.json").exists():
+    # ほかの作業場所があることも漏らさないよう、まわりのディレクトリは見ない
+    sys.exit(f"{ROOT}/config.json がない（作業場所で実行する）")
+CONFIG = json.loads((ROOT / "config.json").read_text())
+STORY_PATH = ROOT / "story.json"
+DATA = ROOT / "data"
 RAW = DATA / "raw"
-OUT = ROOT / "out" / SLUG
+OUT = ROOT / "out"

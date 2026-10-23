@@ -5,22 +5,25 @@
 # ///
 """人の名前を洗い出す。config.json の names / nicknames を決めるために使う。
 
-Usage: uv run <skill>/scripts/find_names.py <slug>
+Usage: uv run <skill>/scripts/find_names.py（作業場所で実行する）
 
 1. Sudachi が人名と判定した語（トークにいない人や、メンバーの本名・あだ名）
 2. メンバーの表示名とその一部のうち、本文に出てくるもの（引用では自動で呼び名に置き換わる）
-3. data/<slug>/recap.json と out/<slug>/*.html に残っているもの
+3. data/recap.json と out/*.html に残っているもの
 4. 1 のうち、ページでの表示をまだユーザーに聞いていないもの（nicknames にないもの）
+5. story.json に書いた人名のうち、members の呼び名と nicknames の表示にないもの
 を表示する。1 には普通の語（「そう」「はな」など）も混ざるので、目で見て選ぶ。
+読むのは作業場所（今回のトーク）の中だけで、ほかの作業場所は読まない。
 """
 import collections
+import json
 import re
 
 from sudachipy import Dictionary, SplitMode
 
 from load import KEY_OF, load
 from mask import name_parts
-from person import CONFIG, DATA, OUT
+from person import CONFIG, DATA, OUT, STORY_PATH
 
 df, _, _, _ = load()
 texts = df[df.is_text].text
@@ -61,3 +64,27 @@ for f in [DATA / "recap.json", *sorted(OUT.glob("*.html"))]:
 print("== 4. 表示をまだ聞いていない人名の候補（1 から、nicknames に書いたものとメンバーの名前を除いた。普通の語は目で外す）")
 asked = set(nick) | parts | set(CONFIG.get("members", {}).values()) | set(display)
 print([n for n, _ in pn.most_common(60) if n not in asked])
+
+
+def strings(obj, path=""):
+    """JSON の中の文字列を（場所, 文字列）で返す。キーは項目名（page_title など）か、
+    build.py が呼び名と照らす wrapped.awards なので含めない"""
+    if isinstance(obj, str):
+        yield path, obj
+    elif isinstance(obj, dict):
+        for k, v in obj.items():
+            yield from strings(v, f"{path}.{k}" if path else k)
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            yield from strings(v, f"{path}[{i}]")
+
+
+print("== 5. story.json に書いた人名のうち、members の呼び名と nicknames の表示にないもの（場所。普通の語は目で外す）")
+story = json.loads(STORY_PATH.read_text()) if STORY_PATH.exists() else {}
+ok = set(CONFIG.get("members", {}).values()) | (set(nick.values()) if isinstance(nick, dict) else {"〇〇"})
+in_story = collections.defaultdict(list)
+for path, s in strings(story):
+    for m in tok.tokenize(s, SplitMode.C):
+        if m.part_of_speech()[2] == "人名" and m.surface() not in ok:
+            in_story[m.surface()].append(path)
+print(dict(in_story))

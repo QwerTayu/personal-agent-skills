@@ -8,12 +8,14 @@ description: LINE のトークを書き出した txt（iOS・英語表示）か�
 LINE のトークを書き出した txt を数えて、そのトークの振り返りページを作る。
 出すものは 2 つで、どちらも同じ集計（`recap.json`）から作る単一の HTML ファイル。
 
-- `out/<slug>/report.html`: 1 カラムの読み物。見出しが結論になっていて、図がその裏付けになる
-- `out/<slug>/wrapped.html`: 縦長のスライド。期間ごとの章 → 全期間のまとめ → 表彰式 → まとめカードの順。1 枚 5 秒で自動再生し、一時停止できる
+- `out/report.html`: 1 カラムの読み物。見出しが結論になっていて、図がその裏付けになる
+- `out/wrapped.html`: 縦長のスライド。期間ごとの章 → 全期間のまとめ → 表彰式 → まとめカードの順。1 枚 5 秒で自動再生し、一時停止できる
 
 ページの設計の考え方は `references/design.md`、設定と文の項目は `references/files.md` にある。
 
 ## 1. txt を読んで、ユーザーに確かめる
+
+始める前に、このセッションでほかの recap を作っていないかを確かめる。作っていたら、ここで止めて、新しいセッション（`/clear` か新しいタブ）で作り直すようユーザーに勧める（2. 守ること）。
 
 渡された txt を 1 つ、`parse_line.py` で読む。トーク名・モードの見当・期間・送り手の一覧・通話や取り消しの件数が出る。
 
@@ -33,40 +35,45 @@ python3 $SKILL/scripts/parse_line.py <txt>
 
 ## 2. 守ること
 
+- **recap の情報源は、渡された txt 1 つだけにする（ユーザーが決めた）。** ほかの recap の作業場所は開かない（`cat`・`grep`・`ls` で中身を見ることも、作業場所を並べた親のディレクトリを `ls` することも含む）。設定や文の手本にも、ユーザーに見せる選択肢（「〇〇の回に合わせる」など）にも使わない。手本は `assets/example/` だけ。skill のスクリプトも、今回の作業場所の中しか読まない。ほかのトークの名前・話題・設定の値がページに入ると、そのページを見た人に、別の人とのトークがあることや、その中身が伝わる
+- **1 つのセッションで作る recap は 1 つだけ（ユーザーが決めた）。** 前に作った recap の内容は会話に残り、消せないため。このセッションで前にほかの recap を作っていたら、新しいセッションで作るよう勧める。それでも続けると言われたら、前の recap の設定・文・名前・引用・数字は、手本にも、ユーザーに見せる選択肢にも、story.json の文にも使わない
+- トークの名前や中身（人の名前、呼び名、話題、引用）は、Claude の memory や CLAUDE.md に書かない。次のセッションの recap に持ち込まないため
 - 全員の発言を数え、引用も全員から選ぶ（ユーザーが決めた）。ただし、ページに出す名前は `members` の呼び名だけにする。txt の表示名とその一部は、引用の中で呼び名に置き換わる（`mask.py`）
 - ページに出る人名（メンバーの本名・あだ名、話に出てくるトークにいない人）は、**1 つずつユーザーに「なんと表示しますか」と聞き**、答えを `nicknames` に `{名前: 表示する文字列}` で書く（ユーザーが決めた）。「〇〇」や呼び名を自分で決めない。伏せたいと言われたら「〇〇」にする。2 文字以下の名前は、普通の語を壊さないよう、敬称（さん・くんなど）が続くときと、1 語に切れてすぐあとが助詞・記号・文の終わりのときだけ置き換わる。そのため「今日太郎来る」のような書き方は残る。`find_names.py` の 3 で `nicknames` が残っていたら、その引用をユーザーに見せ、人の名前かどうかを聞く。自分で決めない。たとえば「山田」という人がいて、山田駅も存在したとき、「山田駅着いた？」は「山田（くん）、駅着いた？」とも「山田駅に着いた？」とも読める。「山田駅」は 1 語に切れるので置き換わらない。どちらの意味かは会話の当事者にしか分からない。人の名前なら、`wrapped` の引用の選び直しなどで外す（いちばん長いメッセージのように選び直せないものは `show_longest_text: false` などで出さない）。人でなければ、そのまま出してよい
 - 口座・銀行・振込先・カード番号・マイナンバー・パスワード・電話番号・住所・郵便番号・メールアドレスらしきものを含むメッセージは、だれのものでも集計から外す（`load.py` の `SENSITIVE_RE`。全角の数字やハイフンもそろえてから探す）。外した件数が表示されるので、あればユーザーに伝える
-- txt・集計結果・HTML（`data/` と `out/`）には個人の会話が入るので、git に入れない。`recap.json` と HTML にも、名前を伏せた引用と呼び名がそのまま入る。プロジェクトが git の中なら `.gitignore` に `data/` と `out/` を入れる
+- txt・集計結果・HTML（`data/` と `out/`）には個人の会話が入るので、git に入れない。`recap.json` と HTML にも、名前を伏せた引用と呼び名がそのまま入る。作業場所とその親のディレクトリは git の中に置かない（`config.json` にも txt の表示名、つまり本名が入り、`git status` や `git log` だけでほかの作業場所の名前と中身が見えるため）
 - 会話を読むのはメインのセッションだけにする。story.json の下書きもサブエージェントに任せない
 - 作ったページを外に出すとき（Artifact の公開など）は、ユーザーに確かめてから。相手やグループに見せるものは、相手の了解があるときだけ
 
-## 3. プロジェクトの形
+## 3. 作業場所の形
 
-recap を作るディレクトリ（以下プロジェクト）に、トークごとのディレクトリを置く。スクリプトは skill の中に置いたまま、プロジェクトのディレクトリで実行する。
+recap は 1 回ごとに作業場所（`<親のディレクトリ>/<slug>/`）を 1 つ作り、そこにトークを 1 つだけ置く。スクリプトは skill の中に置いたまま、作業場所で引数なしで実行する。
+
+親のディレクトリと slug（作業場所のフォルダ名）はユーザーに聞く。`find` などで探さず、親のディレクトリも `ls` しない（ほかの作業場所の名前が目に入るため）。`test -e <親>/<slug>` でその場所だけを確かめ、なければ作る。あれば中を開かずに、今回のトークの作業場所の続きかをユーザーに聞く。続きでなければ、別の slug を聞く。Claude のセッションは親のディレクトリで始めない（始めたときに読み込む場所の情報から、ほかの作業場所の名前が会話に入るため）。
 
 ```
-talks/<slug>/config.json   モード・本人・呼び名・範囲・時期の区切り・伏せる名前など（assets/example/config.json）
-talks/<slug>/story.json    見出し・キャプション・スライドの文（assets/example/story.json）
-data/<slug>/raw/<txt>      書き出した txt を 1 つだけ写して置く（git に入れない）
-data/<slug>/recap.json     集計結果（引用が入るので git に入れない）
-out/<slug>/                report.html と wrapped.html（git に入れない）
+config.json      モード・本人・呼び名・範囲・時期の区切り・伏せる名前など（assets/example/config.json）
+story.json       見出し・キャプション・スライドの文（assets/example/story.json）
+data/raw/<txt>   書き出した txt を 1 つだけ写して置く（git に入れない）
+data/recap.json  集計結果（引用が入るので git に入れない）
+out/             report.html と wrapped.html（git に入れない）
 ```
 
-実行のしかた（`$SKILL` はこの skill のディレクトリ。例: `SKILL=~/.claude/skills/line-recap`）:
+実行のしかた（`$SKILL` はこの skill のディレクトリ。例: `SKILL=~/.claude/skills/line-recap`）。作業場所に `cd` してから実行する:
 
 ```sh
-uv run $SKILL/scripts/analyze.py <slug>     # → data/<slug>/recap.json
-python3 $SKILL/scripts/build.py <slug>      # → out/<slug>/report.html と wrapped.html
-uv run $SKILL/scripts/find_names.py <slug>  # 名前の候補と、出力に残っている名前
+uv run $SKILL/scripts/analyze.py     # → data/recap.json
+python3 $SKILL/scripts/build.py      # → out/report.html と wrapped.html
+uv run $SKILL/scripts/find_names.py  # 名前の候補と、出力に残っている名前
 ```
 
 `analyze.py` と `find_names.py` は外部ライブラリ（sudachipy、scikit-learn、pandas など）を使う。スクリプトの先頭に PEP 723 の inline metadata で書いてあるので、`uv run` が入れてから動かす。`parse_line.py` と `build.py` は標準ライブラリだけで動く。
 
-例の架空の 2 人で試すときは、`assets/example/` の `config.json`・`story.json` を `talks/alice-bob/` に、`talk.txt` を `data/alice-bob/raw/` に写す。
+例の架空の 2 人で試すときは、新しい作業場所を作り、`assets/example/` の `config.json`・`story.json` をその直下に、`talk.txt` を `data/raw/` に写す。
 
 ## 4. 設定を書いて集計する
 
-`assets/example/config.json` を写して `talks/<slug>/config.json` を書き、`analyze.py` を回して結果を見る。1 回で決まることはないので、次を見ながら設定を直して回し直す。
+`assets/example/config.json` を作業場所に写して `config.json` を書き、`analyze.py` を回して結果を見る。1 回で決まることはないので、次を見ながら設定を直して回し直す。
 
 - **モード・本人・呼び名**: 1 で決めたものを `mode`・`me`・`members` に書く。`title` はページに出すトーク名（txt のトーク名には人の名前が入るので、そのまま使わない）
 - **範囲**: `since` / `until` に書く
@@ -80,7 +87,7 @@ uv run $SKILL/scripts/find_names.py <slug>  # 名前の候補と、出力に残�
 
 ## 5. 文を書く
 
-`talks/<slug>/story.json` をメインのセッションで書く。項目は `references/files.md`、書き方は `references/design.md`。story.json に人名を書くときも、`members` の呼び名と、`nicknames` でユーザーに聞いた表示だけを使う。
+`story.json` をメインのセッションで書く。項目は `references/files.md`、書き方は `references/design.md`。story.json に人名を書くときも、`members` の呼び名と、`nicknames` でユーザーに聞いた表示だけを使う。ほかのトークや、前に作った recap のこと（「〇〇とのトークと見比べる」など）は書かない。
 
 - 時期ごとのメッセージを 30 件ずつほど読んで（引用と同じく `mask.py` の `to_plain` で名前を置き換えてから読む）、特徴語と照らしてキャッチコピーを付ける
 - **称号**: `recap.json` の `awards` に、数字から選んだ称号の候補が 1 人 1 つ入っている。合わなければ `wrapped.awards` で上書きする（`{呼び名: {title, body, emoji}}`）
@@ -101,6 +108,6 @@ uv run $SKILL/scripts/find_names.py <slug>  # 名前の候補と、出力に残�
 - スライドの数字はカウントアップするので、スクリーンショットでは途中の値に見えることがある。最終値は `--dump-dom` で確かめる
 - `wrapped.html#3` のように番号を付けると、そのスライドから開く
 
-最後に `find_names.py` の「3. 出力に残っているもの」で、表示名・`nicknames` が残っていないこと、人名の候補が出力に出ていないことを確かめる。`nicknames` が残っていたら、その引用をユーザーに見せて、人の名前かどうかを聞く（2. 守ること）。「4. 表示をまだ聞いていない人名の候補」に人名が残っていたら、ユーザーに聞いて `nicknames` に足し、集計し直す。
+最後に `find_names.py` の「3. 出力に残っているもの」で、表示名・`nicknames` が残っていないこと、人名の候補が出力に出ていないことを確かめる。「5. story.json に書いた人名」に、`members` の呼び名でも `nicknames` の表示でもない人名が出たら、その場所の文を story.json で直す（自分で書いた文なので、引用と違ってユーザーに聞かずに直してよい。人名かどうか迷う語はユーザーに聞く）。`nicknames` が残っていたら、その引用をユーザーに見せて、人の名前かどうかを聞く（2. 守ること）。「4. 表示をまだ聞いていない人名の候補」に人名が残っていたら、ユーザーに聞いて `nicknames` に足し、集計し直す。
 
-ユーザーへの報告には、中身の要点（数字と見出し）、確かめたこと、外したもの（個人情報を含むメッセージの件数、範囲の外）、ユーザーが直すとよいところ（仮のトピック名、キャッチコピー、人名か迷った語）を書く。
+ユーザーへの報告には、中身の要点（数字と見出し）、確かめたこと、story.json に書いた文（ほかのトークの名前や話、知らない名前が入っていないかをユーザーに見てもらう。`find_names.py` の 5 は Sudachi が人名と判定した語しか拾わない）、外したもの（個人情報を含むメッセージの件数、範囲の外）、ユーザーが直すとよいところ（仮のトピック名、キャッチコピー、人名か迷った語）を書く。

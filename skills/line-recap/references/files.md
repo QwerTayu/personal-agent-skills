@@ -2,11 +2,10 @@
 
 例は `assets/example/config.json` と `assets/example/story.json`（架空の 2 人）。
 
-## talks/<slug>/config.json
+## config.json
 
 | 項目 | 意味 |
 |---|---|
-| `slug` | ディレクトリ名と同じ。スクリプトの引数に使う |
 | `mode` | `"pair"`（1 対 1）か `"group"`（グループ）。ユーザーに選んでもらう。`parse_line.py` が見出しから見当をつける |
 | `title` | ページに出すトーク名（スライドの左上など）。txt のトーク名には人の名前が入るので、そのまま使わない |
 | `me` | 本人の、txt の送り手の欄での表示名。1 対 1 は `parse_line.py` が見当をつける。グループは送り手の一覧から選んでもらう |
@@ -30,9 +29,11 @@
 
 txt の表示名は、`members` と `sender_aliases` に書いておけば、引用の中では呼び名に置き換わる。表示名を空白やかっこで区切った一部（「山田 花子（はな）」の「花子」「はな」）も置き換わる。数字だけの部分と 1 文字の部分は置き換えない。
 
-## talks/<slug>/story.json
+## story.json
 
 手で書く文。数字はデータで確かめてから書く。`page_title`・`title`・`lede`・`what_heading`・`periods` と、`wrapped` の `page_title`・`intro_title` は必須。ほかは省くと、数字から見出しや文を作る。
+
+`build.py` は、それぞれのページが使う項目だけを HTML に埋め込む（読み物は `REPORT_KEYS`、スライドは `WRAPPED_KEYS`。`wrapped` の下は `SLIDE_KEYS`、`periods.<キー>` の下は `PERIOD_KEYS`、`wrapped.awards.<呼び名>` の下は `AWARD_KEYS`）。下の表にない項目（メモなど）は、どの階層に書いても HTML には入らない。テンプレートで story の項目を新しく使うときは、`build.py` のこれらも直す。
 
 ### 読み物（report.html）
 

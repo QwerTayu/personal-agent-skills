@@ -1,4 +1,4 @@
-"""data/<slug>/recap.json と talks/<slug>/story.json をテンプレートに埋め込み、out/<slug>/ に単一 HTML を書く。"""
+"""data/recap.json と story.json をテンプレートに埋め込み、out/ に単一 HTML を書く。作業場所で引数なしで実行する。"""
 import json
 import sys
 
@@ -60,6 +60,41 @@ def pick_quotes(recap, story):
     sw.pop("streak_quotes", None)
 
 
+# テンプレートが story.json から読む項目（templates/*.html の S.<項目>、wrapped の下は SW.<項目>）。
+# 表示しない項目（スライドの next、書き足したメモなど）まで HTML のソースに残さないよう、これだけを埋め込む。
+# 下の階層（periods・wrapped・wrapped.awards の中）も同じように絞る。
+# テンプレートで新しい項目を読むときは、ここにも足す。page_title は <title> に入れるので JS には渡さない
+REPORT_KEYS = ["calls_body", "calls_heading", "facts_heading", "facts_note", "follows_heading", "greetings_heading",
+               "habits_heading", "highlights_heading", "lede", "longest_talk_body", "next", "people_words_heading",
+               "periods", "polite_body", "polite_heading", "rhythm_body", "rhythm_heading", "show_longest_text",
+               "speed_body", "speed_heading", "talks_body", "talks_heading", "title", "topics", "topics_note",
+               "what_heading", "when_body", "when_heading", "words_body", "words_heading"]
+WRAPPED_KEYS = ["periods", "what_heading", "wrapped"]
+SLIDE_KEYS = ["awards", "awards_heading", "battle_body", "battle_heading", "best_day_body", "best_day_quote", "card_body",
+              "card_heading", "first_heading", "habits_body", "habits_heading", "habits_keys", "hour_body", "hour_heading",
+              "intro_title", "longest_talk_body", "longest_talk_heading", "messages_body", "messages_kicker",
+              "overall_heading", "periods_kicker", "rhythm_body", "share_heading", "speed_body", "speed_heading",
+              "talks_body", "talks_heading", "top_word_body"]
+PERIOD_KEYS = ["title", "body"]
+AWARD_KEYS = ["title", "body", "emoji"]
+
+
+def pick(d, keys):
+    return {k: d[k] for k in keys if k in d} if isinstance(d, dict) else d
+
+
+def story_for(name, story):
+    """そのテンプレートが使う story の項目だけを返す"""
+    out = pick(story, WRAPPED_KEYS if name == "wrapped.html" else REPORT_KEYS)
+    if isinstance(out.get("periods"), dict):
+        out["periods"] = {k: pick(v, PERIOD_KEYS) for k, v in out["periods"].items()}
+    if "wrapped" in out:
+        out["wrapped"] = pick(out["wrapped"], SLIDE_KEYS)
+        if isinstance(out["wrapped"].get("awards"), dict):
+            out["wrapped"]["awards"] = {n: pick(a, AWARD_KEYS) for n, a in out["wrapped"]["awards"].items()}
+    return out
+
+
 def main():
     for f in [DATA / "recap.json", STORY_PATH]:
         if not f.exists():
@@ -69,9 +104,9 @@ def main():
     check(recap, story)
     pick_quotes(recap, story)
     payload = json.dumps(recap, ensure_ascii=False).replace("</", "<\\/")
-    story_js = json.dumps(story, ensure_ascii=False).replace("</", "<\\/")
     OUT.mkdir(parents=True, exist_ok=True)
     for name in ["report.html", "wrapped.html"]:
+        story_js = json.dumps(story_for(name, story), ensure_ascii=False).replace("</", "<\\/")
         title = story["page_title"] if name == "report.html" else story["wrapped"]["page_title"]
         title = title.replace("&", "&amp;").replace("<", "&lt;")
         html = ((TEMPLATES / name).read_text().replace("/*__DATA__*/null", payload).replace("/*__STORY__*/null", story_js)

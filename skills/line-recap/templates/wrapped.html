@@ -252,7 +252,7 @@ const animate = slide => {
   return slide;
 };
 const add = (bg, ...kids) => slides.push(animate($("section", { class: `slide ${bg}` }, ...kids)));
-// スライドの文は talks/<slug>/story.json の wrapped に書く。書かなければ数字から作る
+// スライドの文は story.json の wrapped に書く。書かなければ数字から作る
 const SW = S.wrapped;
 document.getElementById("tag").textContent = D.talk.title;
 const N_ = PP.length;

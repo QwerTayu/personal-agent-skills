@@ -3,7 +3,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["sudachipy", "sudachidict-core", "scikit-learn", "pandas", "numpy"]
 # ///
-"""集計して data/<slug>/recap.json を書く。HTML とスライドはこのファイルだけを読む。"""
+"""集計して data/recap.json を書く。作業場所で引数なしで実行する。HTML とスライドはこのファイルだけを読む。"""
 import collections
 import json
 import sys
