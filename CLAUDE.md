@@ -5,7 +5,7 @@ QwerTayu の個人用 Claude Code skill を置く、公開の repo。
 
 ## 構成
 
-- skill ごとに `skills/` の下にディレクトリを 1 つ作る（例: `skills/review-in-tab/`）。Claude Code の plugin と同じ `skills/<skill名>/SKILL.md` の形にしておく。
+- skill ごとに `skills/` の下にディレクトリを 1 つ作る（例: `skills/review-subagent/`）。Claude Code の plugin と同じ `skills/<skill名>/SKILL.md` の形にしておく。
 - 各 skill ディレクトリの中身:
   - `SKILL.md`: skill の本体。frontmatter に `name` と `description` を書く。
   - `requirements.md`: その skill の要件と、決まったことの記録。実装の前に書き、変えたら更新する。
