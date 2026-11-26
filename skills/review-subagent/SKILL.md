@@ -33,7 +33,7 @@ description: セルフレビューや敵対的評価、PR のレビューを、�
   out=<scratchpad のフォルダ>/review-input
   mkdir -p "$out"
   git diff HEAD --binary > "$out/uncommitted.patch"                  # 追跡しているファイルの変更
-  git ls-files --others --exclude-standard -z > "$out/untracked.list"  # まだ追加していないファイルの一覧
+  git ls-files --others --exclude-standard -z > "$out/untracked.list"  # まだ追加していないファイルの一覧（NUL 区切り）
   ```
 
   まだ追加していないファイルは、レビュー役が元のリポジトリから読んでコピーする（パスは一覧のとおり）。`git add -N` などで作業ツリーやインデックスを触らない。
@@ -55,7 +55,7 @@ Agent ツールを、`subagent_type: "general-purpose"`、`isolation: "worktree"
 - **役割**: 「あなたはこの変更のレビュワーです」と書き出す。指摘は、そのまま PR のレビューコメントとして出せる文面で書いてもらう。依頼の経路（この skill やサブエージェントであること）には触れさせない。
 - **種類**: ローカルか PR か。PR なら番号と URL。
 - **対象と準備**: 今いる worktree で、まず次をしてもらう。
-  - ローカル: 元のリポジトリのパス、ブランチ、HEAD の SHA。worktree が同じ SHA かを `git rev-parse HEAD` で確かめる。コミットしていない変更があれば `git apply --binary <patch のパス>` で当て、まだ追加していないファイルを `<一覧のパス>` のとおり元のリポジトリからコピーする。見る差分は `git diff origin/main...HEAD` と `git diff HEAD`（リモートがなければ `main...HEAD`）。
+  - ローカル: 元のリポジトリのパス、ブランチ、HEAD の SHA。worktree が同じ SHA かを `git rev-parse HEAD` で確かめる。コミットしていない変更があれば `git apply <patch のパス>` で当てる。まだ追加していないファイルは、一覧が NUL 文字で区切られているので、`while IFS= read -r -d '' p; do mkdir -p "$(dirname "$p")"; cp "<元のリポジトリ>/$p" "$p"; done < <一覧のパス>` のように読んで、元のリポジトリからコピーする。見る差分は `git diff origin/main...HEAD` と `git diff HEAD`（リモートがなければ `main...HEAD`）。
   - PR: `git fetch origin pull/<番号>/head` と `git fetch origin <baseRefName>` のあと、`git checkout --detach <headRefOid>`。見る差分は `git diff origin/<baseRefName>...HEAD`。先に `gh api --paginate repos/<owner>/<repo>/pulls/<番号>/comments`（インラインのコメント）と `gh api --paginate repos/<owner>/<repo>/pulls/<番号>/reviews`（レビュー全体のコメント）で、PR に今あるコメントを読む。`--paginate` がないと最初の 30 件しか返らない。すでに出ている指摘は出さない。
 - **観点**: 頼まれた内容に合わせる。
   - セルフレビュー: 正しさ、書き漏れ、周りのコードとの食い違い
@@ -66,7 +66,7 @@ Agent ツールを、`subagent_type: "general-purpose"`、`isolation: "worktree"
   - 元のリポジトリ（ユーザーの作業ツリー）は読むだけで、書き換えない。書き換えてよいのは、自分の worktree の中だけ。
   - **確からしさが高でない指摘は、出す前に確かめる。** テストを動かす、小さなスクリプトや試しの入力で再現する、ビルドする、などで実際に動かし、高に上げる努力をする。確かめた指摘は、何を動かして何が起きたかを書く。どうしても確かめられないもの（外のサービスが要る、動かすのに時間がかかりすぎる、など）は、確からしさを中か低のまま残し、確かめられなかった理由を書く。読んだだけの推測で済ませない。
   - 動かすのに依存が要るとき（`npm install` など）は、worktree の中で入れてよい。ネットワークの外へ何かを送る操作（デプロイ、PR への投稿、メッセージの送信など）はしない。
-  - 試しに作ったファイルは、終わる前に消す（worktree に変更が残らなければ、worktree は自動で片付く）。
+  - worktree の片付けはしなくてよい（依頼した側が消す）。
   - 指摘ごとに、場所（`ファイル:行`）を書く。直してほしい点なら、何が起きるかと直し方も書く。
   - 指摘の先頭に、次のタグを 1 つ付ける。タグは重さを、確からしさはどれだけ確かかを表す。
     - `must:` 直さないとマージできない
@@ -90,6 +90,18 @@ Agent ツールを、`subagent_type: "general-purpose"`、`isolation: "worktree"
     最後に、確かめに動かしたコマンドの一覧と、確かめられなかった指摘とその理由をまとめる。指摘がなければ、そう書く。
 
 起こしたら、レビュー役が終わるのを待つ。裏で動かしたときは、終わった知らせが届くまで、結果を想像で書かない。
+
+レビュー役の worktree は、作業しているリポジトリの中の `.claude/worktrees/agent-…` に、ブランチ `worktree-agent-…` で作られる。何も変えずに終われば自動で消えるが、パッチを当てた、依存を入れた、PR の SHA に checkout した、などで中身が変わっていると、worktree もブランチも残る。残ると、作業しているリポジトリの `git status` に `?? .claude/` と出て、`git add -A` でコミットに入ってしまう。
+そのため、結果を受け取ったら、依頼した側が必ず消す。終わった知らせ（または Agent ツールの結果）に、worktree の場所とブランチ名が付いてくる。
+
+```sh
+git worktree remove --force <worktree の場所>
+git branch -D <ブランチ名>
+rmdir .claude/worktrees .claude 2>/dev/null   # 空になったら消す（中にほかのものがあれば残る）
+git status --short                            # .claude/ が出ていないことを確かめる
+```
+
+場所とブランチ名がわからなければ、`git worktree list` で `.claude/worktrees/agent-` の行を探す。自分が起こしたレビュー役のもの以外は消さない。
 
 ## 4. 結果を見せる
 
